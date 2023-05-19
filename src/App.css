@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  font-family: "Josefin Slab"; 
+  font-style: normal; 
+  font-variant: normal;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .App-logo {
@@ -44,6 +49,7 @@ section {
   height: 100vh;
 
 }
+
 
 .navBg {
   background-color: #F7D65A;
