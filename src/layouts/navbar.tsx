@@ -32,9 +32,7 @@ function NavbarEx() {
                 <Outlet></Outlet>
             </section>
 
-            <Navbar className="navBg" expand="lg">
-                
-            </Navbar>
+            <Navbar className="navBg" expand="lg"></Navbar>
         </>
     )
 }
