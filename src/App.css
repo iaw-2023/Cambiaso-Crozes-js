@@ -50,17 +50,18 @@ section {
   color: #fff;
   text-shadow: 3px 3px rgba(50, 50, 70, 0.5);
   background-color: black;
-  height: 100vh;
+  height:90vh;
 }
 
 .carousel-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 50vh;
 }
 
 .img-resize {
-  width: 100vh;
-  height: 100vh;
+  width: 50vh;
+  height: 50vh;
 }
+
