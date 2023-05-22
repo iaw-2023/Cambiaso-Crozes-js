@@ -79,6 +79,29 @@ Carousel {
   margin: 0;
 }
 
+.subtitulo {
+  color: #F7D65A;
+  font-size: 2rem;
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-column-gap: 1.2rem;
+  align-items: center;
+}
+
+.subtitulo::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background-image: linear-gradient(to right, rgba(0,0,0), #F7D65A, #F7D65A);
+}
+
+.subtitulo::after {
+  content: "";
+  display: block;
+  height: 3px;
+  background-image: linear-gradient(to right, #F7D65A, #F7D65A, rgba(0,0,0));
+}
+
 .cards-container{
   padding-top: 15px;
   padding-bottom: 15px;
@@ -107,4 +130,3 @@ Carousel {
   justify-content: center;
 }
 
-}
