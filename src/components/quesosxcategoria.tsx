@@ -34,7 +34,7 @@ function QuesosxCategoria() {
                     {quesosxcategoria.map((queso: Queso, idx) => 
                         <Col className="card-col" key={idx}>
                         <Card className="custom-card">
-                            <Card.Link as={Link} to={"/quesos/"+queso.id}>
+                            <Card.Link as={Link} to={"/quesos/"+queso.nombre}>
                                 <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} />
                             </Card.Link>
                             <Card.Body className="custom-card-body">

@@ -15,8 +15,9 @@ function App() {
           <Route path='/' element={ <NavbarEx /> }>
             <Route index element={ <Home /> }/>
             <Route path='quesos' element={ <Quesos /> }/>
+            
             <Route path='carrito' element={ <Carrito /> }/>
-            <Route path='quesos/:tipo_de_queso' element={ <QuesosxCategoria /> } />
+            <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
 
             [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
             <Route path='*' element={ <Navigate replace to="/" />}/> 

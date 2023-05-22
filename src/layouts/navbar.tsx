@@ -47,7 +47,7 @@ function NavbarEx() {
                             <b><Nav.Link as={Link} to="/quesos">Quesos</Nav.Link></b>
                             <NavDropdown title="Categorías" id="collasible-nav-dropdown">
                                 {categorias.map((categoria: Categoria, idx) => 
-                                    <NavDropdown.Item key={idx} as={Link} to={{pathname: 'quesos/'+categoria.tipo_de_queso}} state={{id: categoria.id}}>{categoria.tipo_de_queso}</NavDropdown.Item>
+                                    <NavDropdown.Item key={idx} as={Link} to={{pathname: 'quesos/categoria/'+categoria.tipo_de_queso}} state={{id: categoria.id}}>{categoria.tipo_de_queso}</NavDropdown.Item>
                                 )}
                             </NavDropdown>
                         </Nav>

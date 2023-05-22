@@ -72,7 +72,7 @@ function Home() {
                             <Card.Img variant="top" src={"data:image/png;base64," + quesoxcategoria[2]} />
                             <Card.Body className="custom-card-body">
                                 <Card.Title>{quesoxcategoria[1]}</Card.Title>
-                                <Card.Link as={Link} to={"/quesos/"+quesoxcategoria[1]} state={{id: quesoxcategoria[0]}}>
+                                <Card.Link as={Link} to={"/quesos/categoria/"+quesoxcategoria[1]} state={{id: quesoxcategoria[0]}}>
                                     <b><Button variant="outline-warning">Ver más</Button></b>
                                 </Card.Link>
                             </Card.Body>
