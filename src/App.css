@@ -47,21 +47,45 @@
 }
 
 section {
-  color: #fff;
-  text-shadow: 3px 3px rgba(50, 50, 70, 0.5);
+  color: white;
   background-color: black;
-  height:90vh;
-}
-
-.carousel-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
 }
 
 .img-resize {
-  width: 50vh;
-  height: 50vh;
+  width: 100vw;
+  height: 100vh;
 }
 
+.footer-content {
+  display: inline-flex;
+}
+
+.separador {
+  margin-top: 0;
+  border: 0;
+  height: 3px;
+  background-image: linear-gradient(to right, rgba(0,0,0), #F7D65A, rgba(0,0,0));
+  opacity: 1;
+}
+
+Carousel {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.titulo {
+  color: #F7D65A;
+  font-size: 8vw;
+  margin: 0;
+}
+
+.custom-card {
+  width: 18rem;
+  color: #F7D65A;
+  border-color: #F7D65A;
+}
+
+.custom-card-body {
+  background-color: black;
+  border-color: #F7D65A;
+}

@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { Outlet, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
-import { BsCart4,BsSearchHeart } from "react-icons/bs";
+import { BsCart4,BsSearchHeart, BsHeartFill } from "react-icons/bs";
 import { Button } from 'react-bootstrap';
 
 function NavbarEx() {
@@ -45,13 +45,13 @@ function NavbarEx() {
                             <b><Nav.Link as={Link} to="/">Home</Nav.Link></b>
                             <b><Nav.Link as={Link} to="/quesos">Quesos</Nav.Link></b>
                             <NavDropdown title="Categorías" id="collasible-nav-dropdown">
-                                {categorias.map((categoria: Categoria) => 
-                                    <NavDropdown.Item href={'#'+categoria.tipo_de_queso}>{categoria.tipo_de_queso}</NavDropdown.Item>
+                                {categorias.map((categoria: Categoria, idx) => 
+                                    <NavDropdown.Item key={idx} as={Link} to={'quesos/'+categoria.id}>{categoria.tipo_de_queso}</NavDropdown.Item>
                                 )}
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#carrito"><BsCart4/></Nav.Link>
+                            <Nav.Link as={Link} to="/carrito"><BsCart4/></Nav.Link>
                             <Form className="d-flex">
                                 <Form.Control
                                 type="search"
@@ -69,8 +69,19 @@ function NavbarEx() {
             <section>
                 <Outlet></Outlet>
             </section>
+            
+            <footer className="page-footer font-small pt-4 navBg">
+                <div className="container text-center">
+                    <div className="footer-content">
+                        
+                        <h5>I</h5>
+                        <BsHeartFill/>
+                        <h5>cheese</h5>
 
-            <Navbar className="navBg" expand="lg"></Navbar>
+                    </div>
+                </div>
+            </footer>
+            
         </>
     )
 }
