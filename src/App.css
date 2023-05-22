@@ -79,13 +79,24 @@ Carousel {
   margin: 0;
 }
 
+.cards-container{
+  padding-bottom: 15px;
+}
+
+.cards-container2{
+  display: flex;
+  justify-content: center;
+}
+
 .custom-card {
   width: 18rem;
+  margin-bottom:20px;
   color: #F7D65A;
-  border-color: #F7D65A;
+  background: linear-gradient(45deg, #F7D65A 100%, #F7D65A 100%);
 }
 
 .custom-card-body {
   background-color: black;
-  border-color: #F7D65A;
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
 }

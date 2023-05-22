@@ -8,6 +8,7 @@ import { Outlet, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
 import { BsCart4,BsSearchHeart, BsHeartFill } from "react-icons/bs";
+import {BiCheese,BiHeart} from 'react-icons/bi';
 import { Button } from 'react-bootstrap';
 
 function NavbarEx() {
@@ -73,11 +74,7 @@ function NavbarEx() {
             <footer className="page-footer font-small pt-4 navBg">
                 <div className="container text-center">
                     <div className="footer-content">
-                        
-                        <h5>I</h5>
-                        <BsHeartFill/>
-                        <h5>cheese</h5>
-
+                        <h5><b>I</b></h5><BiHeart/><BiCheese/>
                     </div>
                 </div>
             </footer>

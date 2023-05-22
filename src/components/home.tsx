@@ -63,15 +63,15 @@ function Home() {
 
             <h1 className="titulo">Bienvenido Quesolover!</h1>
 
-            <Container>
-                <Row xs={2} md={3} className="g-4">
+            <Container className="cards-container">
+                <Row xs={2} md={3} className="cards-container2">
                     {quesosxcategoria.map((quesoxcategoria: any, idx) => 
                         <Col key={idx}>
                         <Card className="custom-card">
                             <Card.Img variant="top" src={"data:image/png;base64," + quesoxcategoria[2]} />
                             <Card.Body className="custom-card-body">
                                 <Card.Title>{quesoxcategoria[1]}</Card.Title>
-                                <Button variant="primary">Go somewhere</Button>
+                                <b><Button variant="outline-warning">Ver más</Button></b>
                             </Card.Body>
                         </Card>
                         </Col>
