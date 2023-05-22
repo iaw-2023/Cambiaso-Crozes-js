@@ -5,6 +5,10 @@
   font-variant: normal;
   font-weight: bold;
   font-size: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
 }
 
 .App-logo {
@@ -81,7 +85,7 @@ Carousel {
 
 .subtitulo {
   color: #F7D65A;
-  font-size: 2rem;
+  font-size: 2vw;
   display: grid;
   grid-template-columns: 1fr max-content 1fr;
   grid-column-gap: 1.2rem;
@@ -130,3 +134,9 @@ Carousel {
   justify-content: center;
 }
 
+.page-footer {
+  background-color: #F7D65A;
+  text-align: center;
+  margin-top: auto;
+  padding: 8px;
+}

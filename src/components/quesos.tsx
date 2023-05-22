@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Queso from '../models/queso';
 import { Link } from "react-router-dom";
 
-function Quesos() {
+const Quesos = () => {
 
     const[quesos,setQuesos] = useState([])
    

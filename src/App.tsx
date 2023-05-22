@@ -6,6 +6,7 @@ import Home from './components/home';
 import Carrito from './components/carrito';
 import QuesosxCategoria from './components/quesosxcategoria';
 import NavbarEx from './layouts/navbar';
+import Footer from './layouts/footer';
 
 function App() {
  return (
@@ -24,6 +25,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Footer></Footer>
     </div>
   );  
 }

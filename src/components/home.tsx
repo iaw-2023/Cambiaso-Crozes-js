@@ -81,7 +81,6 @@ function Home() {
                     )}
                 </Row>
             </Container>
-            
         </>
     );
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import {Link, useParams} from "react-router-dom";
-import Categoria from '../models/categoria';
+import { Link, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Queso from "../models/queso";
@@ -14,14 +13,14 @@ function QuesosxCategoria() {
 
     const url = 'https://cambiaso-crozes-laravel-955ex9rx5-cambiaso-crozes.vercel.app/rest/categorias'
 
-    const showDataQuesosxCategoria = async() => {
+    const showDataQuesosxCategoria = async(id: any) => {
         const response = await fetch(url+'/'+id+'/quesos');
         const dataQuesosxCategoria = await response.json();
         setQuesosxCategoria(dataQuesosxCategoria);
     }
 
     useEffect(() => {
-        showDataQuesosxCategoria();
+        showDataQuesosxCategoria(id);
     }, [id]);
     
     return (

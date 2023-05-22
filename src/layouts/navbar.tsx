@@ -8,7 +8,6 @@ import { Outlet, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
 import { BsCart4,BsSearchHeart } from "react-icons/bs";
-import { BiCheese,BiHeart } from 'react-icons/bi';
 import { Button } from 'react-bootstrap';
 
 function NavbarEx() {
@@ -26,6 +25,8 @@ function NavbarEx() {
     useEffect(() => {
         showData();
     }, []);
+
+    
 
     return (
         <>
@@ -55,12 +56,14 @@ function NavbarEx() {
                             <Nav.Link as={Link} to="/carrito"><BsCart4/></Nav.Link>
                             <Form className="d-flex">
                                 <Form.Control
-                                type="search"
-                                placeholder="Buscar Queso"
-                                className="me-2"
-                                aria-label="Search"
+                                    type="search"
+                                    placeholder="Buscar Queso"
+                                    className="me-2"
+                                    aria-label="Search"
                                 />
+                                
                                 <Button variant="outline-dark"><BsSearchHeart/></Button>
+                    
                             </Form>
                         </Nav>
                     </Navbar.Collapse>
@@ -70,14 +73,6 @@ function NavbarEx() {
             <section>
                 <Outlet></Outlet>
             </section>
-            
-            <footer className="page-footer font-small pt-4 navBg">
-                <div className="container text-center">
-                    <div className="footer-content">
-                        <h5><b>I</b></h5><BiHeart/><BiCheese/>
-                    </div>
-                </div>
-            </footer>
             
         </>
     )
