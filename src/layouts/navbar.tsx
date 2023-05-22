@@ -7,8 +7,8 @@ import Form from 'react-bootstrap/Form';
 import { Outlet, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
-import { BsCart4,BsSearchHeart, BsHeartFill } from "react-icons/bs";
-import {BiCheese,BiHeart} from 'react-icons/bi';
+import { BsCart4,BsSearchHeart } from "react-icons/bs";
+import { BiCheese,BiHeart } from 'react-icons/bi';
 import { Button } from 'react-bootstrap';
 
 function NavbarEx() {
@@ -47,7 +47,7 @@ function NavbarEx() {
                             <b><Nav.Link as={Link} to="/quesos">Quesos</Nav.Link></b>
                             <NavDropdown title="Categorías" id="collasible-nav-dropdown">
                                 {categorias.map((categoria: Categoria, idx) => 
-                                    <NavDropdown.Item key={idx} as={Link} to={'quesos/'+categoria.id}>{categoria.tipo_de_queso}</NavDropdown.Item>
+                                    <NavDropdown.Item key={idx} as={Link} to={'quesos/categoria/'+categoria.id}>{categoria.tipo_de_queso}</NavDropdown.Item>
                                 )}
                             </NavDropdown>
                         </Nav>

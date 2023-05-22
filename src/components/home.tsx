@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Categoria from '../models/categoria';
 import { Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Home() {
 
@@ -64,14 +65,16 @@ function Home() {
             <h1 className="titulo">Bienvenido Quesolover!</h1>
 
             <Container className="cards-container">
-                <Row xs={2} md={3} className="cards-container2">
+                <Row xs={1} md={3} className="cards-container2">
                     {quesosxcategoria.map((quesoxcategoria: any, idx) => 
-                        <Col key={idx}>
+                        <Col className="card-col" key={idx}>
                         <Card className="custom-card">
                             <Card.Img variant="top" src={"data:image/png;base64," + quesoxcategoria[2]} />
                             <Card.Body className="custom-card-body">
                                 <Card.Title>{quesoxcategoria[1]}</Card.Title>
-                                <b><Button variant="outline-warning">Ver más</Button></b>
+                                <Card.Link as={Link} to={"/quesos/categoria/"+quesoxcategoria[0]}>
+                                    <b><Button variant="outline-warning">Ver más</Button></b>
+                                </Card.Link>
                             </Card.Body>
                         </Card>
                         </Col>

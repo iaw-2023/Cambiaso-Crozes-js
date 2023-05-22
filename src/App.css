@@ -80,6 +80,7 @@ Carousel {
 }
 
 .cards-container{
+  padding-top: 15px;
   padding-bottom: 15px;
 }
 
@@ -99,4 +100,11 @@ Carousel {
   background-color: black;
   border-bottom-right-radius: inherit;
   border-bottom-left-radius: inherit;
+}
+
+.card-col {
+  display: inline-flex;
+  justify-content: center;
+}
+
 }
