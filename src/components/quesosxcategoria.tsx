@@ -13,16 +13,16 @@ function QuesosxCategoria() {
     const[quesosxcategoria,setQuesosxCategoria] = useState([])
     const [isLoaded, setLoaded] = useState(false);
 
-    const url = 'https://cambiaso-crozes-laravel-955ex9rx5-cambiaso-crozes.vercel.app/rest/categorias'
-
-    const showDataQuesosxCategoria = async(id: any) => {
-        const response = await fetch(url+'/'+id+'/quesos');
-        const dataQuesosxCategoria = await response.json();
-        setQuesosxCategoria(dataQuesosxCategoria);
-        setLoaded(true);
-    }
-
     useEffect(() => {
+        const url = process.env.REACT_APP_MY_ENV + 'categorias';
+
+        const showDataQuesosxCategoria = async(id: any) => {
+            const response = await fetch(url+'/'+id+'/quesos');
+            const dataQuesosxCategoria = await response.json();
+            setQuesosxCategoria(dataQuesosxCategoria);
+            setLoaded(true);
+        }
+
         showDataQuesosxCategoria(id);
     }, [id]);
     
@@ -38,18 +38,18 @@ function QuesosxCategoria() {
                     <Row xs={1} md={3} className="cards-container2">
                         {quesosxcategoria.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
-                            <Card className="custom-card">
-                                <Card.Link as={Link} to={"/quesos/"+queso.nombre}>
-                                    <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} />
-                                </Card.Link>
-                                <Card.Body className="custom-card-body">
-                                    <Card.Title>{queso.nombre}</Card.Title>
-                                    <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
+                                <Card className="custom-card">
                                     <Card.Link as={Link} to={"/quesos/"+queso.nombre}>
-                                        <b><Button variant="outline-warning">Comprar</Button></b>
+                                        <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} />
                                     </Card.Link>
-                                </Card.Body>
-                            </Card>
+                                    <Card.Body className="custom-card-body">
+                                        <Card.Title>{queso.nombre}</Card.Title>
+                                        <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
+                                        <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
+                                            <b><Button variant="outline-warning">Comprar</Button></b>
+                                        </Card.Link>
+                                    </Card.Body>
+                                </Card>
                             </Col>
                         )}
                     </Row>

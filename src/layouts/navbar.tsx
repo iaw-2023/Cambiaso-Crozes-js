@@ -14,16 +14,15 @@ function NavbarEx() {
 
     const[categorias,setCategoria] = useState([])
    
-    const url = 'https://cambiaso-crozes-laravel-955ex9rx5-cambiaso-crozes.vercel.app/rest/categorias'
-    
-    const showData = async() => {
-        const response = await fetch(url);
-        const dataCategorias = await response.json();
-        setCategoria(dataCategorias);
-        setTextoABuscar('all');
-    }
-
     useEffect(() => {
+        const url = process.env.REACT_APP_MY_ENV + 'categorias';
+    
+        const showData = async() => {
+            const response = await fetch(url);
+            const dataCategorias = await response.json();
+            setCategoria(dataCategorias);
+            setTextoABuscar('all');
+        }
         showData();
     }, []);
 

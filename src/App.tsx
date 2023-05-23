@@ -7,6 +7,7 @@ import Carrito from './components/carrito';
 import QuesosxCategoria from './components/quesosxcategoria';
 import NavbarEx from './layouts/navbar';
 import Footer from './layouts/footer';
+import Queso from './components/queso';
 import Buscar from './components/buscar';
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
           <Route path='/' element={ <NavbarEx /> }>
             <Route index element={ <Home /> }/>
             <Route path='quesos' element={ <Quesos /> }/>
-            
+            <Route path='quesos/:nombre' element={<Queso/>}/>
+
             <Route path='carrito' element={ <Carrito /> }/>
             <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
 

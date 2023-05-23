@@ -8,17 +8,16 @@ const Quesos = () => {
 
     const[quesos,setQuesos] = useState([])
     const [isLoaded, setLoaded] = useState(false);
-   
-    const url = 'https://cambiaso-crozes-laravel-955ex9rx5-cambiaso-crozes.vercel.app/rest/quesos'
-    
-    const showData = async() => {
-        const response = await fetch(url);
-        const dataQuesos = await response.json();
-        setQuesos(dataQuesos);
-        setLoaded(true);
-    }
 
     useEffect(() => {
+        const url = process.env.REACT_APP_MY_ENV + 'quesos';
+    
+        const showData = async() => {
+            const response = await fetch(url);
+            const dataQuesos = await response.json();
+            setQuesos(dataQuesos);
+            setLoaded(true);
+        }
         showData();
     }, []);
 
@@ -41,7 +40,7 @@ const Quesos = () => {
                                 <Card.Body className="custom-card-body">
                                     <Card.Title>{queso.nombre}</Card.Title>
                                     <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
-                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre}>
+                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
                                         <b><Button variant="outline-warning">Comprar</Button></b>
                                     </Card.Link>
                                 </Card.Body>

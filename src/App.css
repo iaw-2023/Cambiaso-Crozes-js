@@ -83,6 +83,20 @@ Carousel {
   margin: 0;
 }
 
+.titulo2 {
+  color: #F7D65A;
+  font-size: 5vw;
+  margin: 0;
+}
+
+.titulo3 {
+  color: #F7D65A;
+  font-size: 2vw;
+  margin: 0;
+  text-align: right;
+  padding-top: 10px;
+}
+
 .subtitulo {
   color: #F7D65A;
   font-size: 2vw;
@@ -113,6 +127,20 @@ Carousel {
   display: block;
   height: 3px;
   background-image: linear-gradient(to right, #F7D65A, #F7D65A, rgba(0,0,0));
+}
+
+.descripcion-queso {
+  color: #F7D65A;
+  font-size: 2.25vw;
+  margin-top: 15px;
+  line-height: normal;
+  text-align: left;
+}
+
+.datos-queso {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 }
 
 .cards-container{
