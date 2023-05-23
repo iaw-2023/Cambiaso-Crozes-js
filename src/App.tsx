@@ -7,6 +7,7 @@ import Carrito from './components/carrito';
 import QuesosxCategoria from './components/quesosxcategoria';
 import NavbarEx from './layouts/navbar';
 import Footer from './layouts/footer';
+import Buscar from './components/buscar';
 
 function App() {
  return (
@@ -19,6 +20,8 @@ function App() {
             
             <Route path='carrito' element={ <Carrito /> }/>
             <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
+
+            <Route path='quesos/buscar/:queso_a_buscar' element={<Buscar/>}/>
 
             [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
             <Route path='*' element={ <Navigate replace to="/" />}/> 

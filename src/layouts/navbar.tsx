@@ -20,13 +20,20 @@ function NavbarEx() {
         const response = await fetch(url);
         const dataCategorias = await response.json();
         setCategoria(dataCategorias);
+        setTextoABuscar('all');
     }
 
     useEffect(() => {
         showData();
     }, []);
 
-    
+    const [textoABuscar, setTextoABuscar] = useState('');
+    const handleChange = (e: any) => {
+        if(e.target.value == null || e.target.value.trim() === '')
+            setTextoABuscar('all');
+        else
+            setTextoABuscar(e.target.value);
+    };
 
     return (
         <>
@@ -60,10 +67,11 @@ function NavbarEx() {
                                     placeholder="Buscar Queso"
                                     className="me-2"
                                     aria-label="Search"
+                                    onChange={handleChange}
                                 />
-                                
-                                <Button variant="outline-dark"><BsSearchHeart/></Button>
-                    
+                                <Link to={"/quesos/buscar/"+textoABuscar}>
+                                    <Button variant="outline-dark"><BsSearchHeart/></Button>
+                                </Link>
                             </Form>
                         </Nav>
                     </Navbar.Collapse>
