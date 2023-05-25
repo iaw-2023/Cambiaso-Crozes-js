@@ -160,6 +160,10 @@ Carousel {
   background: linear-gradient(45deg, #F7D65A 100%, #F7D65A 100%);
 }
 
+.quesos-card {
+  width: 25rem;
+}
+
 .custom-card-body {
   background-color: black;
   border-bottom-right-radius: inherit;
@@ -176,4 +180,19 @@ Carousel {
   text-align: center;
   margin-top: auto;
   padding: 8px;
+}
+
+.pagination-cheese {
+  display: flex !important;
+  display: inline-flex !important;
+}
+
+.active>.page-link, .page-link.active{
+  background-color: #F7D65A !important;
+  border-color: #F7D65A !important;
+  color: black !important;
+}
+
+.page-link{
+  color: black !important;
 }

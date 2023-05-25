@@ -18,12 +18,17 @@ function App() {
           <Route path='/' element={ <NavbarEx /> }>
             <Route index element={ <Home /> }/>
             <Route path='quesos' element={ <Quesos /> }/>
+            <Route path='quesos/page/:number' element={ <Quesos /> }/>
+
             <Route path='quesos/:nombre' element={<Queso/>}/>
 
             <Route path='carrito' element={ <Carrito /> }/>
+
             <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
+            <Route path='quesos/categoria/:tipo_de_queso/page/:number' element={ <QuesosxCategoria /> } />
 
             <Route path='quesos/buscar/:queso_a_buscar' element={<Buscar/>}/>
+            <Route path='quesos/buscar/:queso_a_buscar/page/:number' element={<Buscar/>}/>
 
             [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
             <Route path='*' element={ <Navigate replace to="/" />}/> 

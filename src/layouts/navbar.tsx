@@ -20,7 +20,7 @@ function NavbarEx() {
         const showData = async() => {
             const response = await fetch(url);
             const dataCategorias = await response.json();
-            setCategoria(dataCategorias);
+            setCategoria(dataCategorias.data);
             setTextoABuscar('all');
         }
         showData();

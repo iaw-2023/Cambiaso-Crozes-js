@@ -1,25 +1,31 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Queso from '../models/queso';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loading from "../layouts/loading";
+import CheesePagination from "../layouts/pagination";
+import DataPagination from '../models/dataPagination';
 
 const Quesos = () => {
+    const { number } = useParams(); //Recupero el tipo de queso de la url
 
-    const[quesos,setQuesos] = useState([])
+    const[quesos,setQuesos] = useState([]);
     const [isLoaded, setLoaded] = useState(false);
+    const[dataPagination,setDataPagination] = useState<DataPagination>({'current_page': 1, 'last_page': 1, 'path':"", 'url':""});
 
     useEffect(() => {
-        const url = process.env.REACT_APP_MY_ENV + 'quesos';
+        const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'quesos';
     
         const showData = async() => {
+            setLoaded(false);
             const response = await fetch(url);
             const dataQuesos = await response.json();
-            setQuesos(dataQuesos);
+            setQuesos(dataQuesos.data);
+            setDataPagination(dataQuesos);
             setLoaded(true);
         }
         showData();
-    }, []);
+    }, [number]);
 
     return (
         <Container className="quesos-container">
@@ -30,10 +36,10 @@ const Quesos = () => {
                 <Loading></Loading>
             ): (
                 <Container className="cards-container">
-                    <Row xs={1} md={3} className="cards-container2">
+                    <Row xs={1} md={2} className="cards-container2">
                         {quesos.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
-                            <Card className="custom-card">
+                            <Card className="custom-card quesos-card">
                                 <Card.Link as={Link} to={"/quesos/"+queso.id}>
                                     <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} />
                                 </Card.Link>
@@ -48,8 +54,13 @@ const Quesos = () => {
                             </Col>
                         )}
                     </Row>
+                    
+                    <CheesePagination last_page={dataPagination.last_page} current_page={dataPagination.current_page} path={dataPagination.path} url={'/quesos'} ></CheesePagination>
                 </Container>
+        
             )}
+
+
         </Container>
     )
 }

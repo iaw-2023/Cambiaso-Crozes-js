@@ -3,27 +3,37 @@ import { Link, useParams } from "react-router-dom";
 import Queso from "../models/queso";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Loading from "../layouts/loading";
+import DataPagination from "../models/dataPagination";
+import CheesePagination from "../layouts/pagination";
 
 function Buscar() {
-    const { queso_a_buscar } = useParams();
+    const { queso_a_buscar,number } = useParams();
 
     const[quesos,setQuesos] = useState([])
-    const [isLoaded, setLoaded] = useState(false);    
+    const[isLoaded, setLoaded] = useState(false);    
+    const[dataPagination,setDataPagination] = useState<DataPagination>({'current_page': 1, 'last_page': 1, 'path':"", 'url':""});
 
     useEffect(() => {
-        const url = process.env.REACT_APP_MY_ENV + 'quesos';
-        
+        const urlQuesos = number !== undefined ? process.env.REACT_APP_MY_ENV + 'quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'quesos';
+
+        const urlBuscar = number !== undefined ? process.env.REACT_APP_MY_ENV + 'quesos/buscar/' + queso_a_buscar + '?page=' + number : process.env.REACT_APP_MY_ENV + 'quesos/buscar/' + queso_a_buscar;
+        var response;
+
         const showData = async(queso_a_buscar: any) => {
             setLoaded(false);
-            const response = await fetch(url);
+            if(queso_a_buscar){
+               response = await fetch(urlBuscar);
+            }else{
+               response = await fetch(urlQuesos);
+            }
             const dataQuesos = await response.json();
-            const buscar = queso_a_buscar ? queso_a_buscar : 'all';
-            setQuesos(buscar === 'all' ? dataQuesos : dataQuesos.filter((queso:Queso) => queso.nombre.toLowerCase().includes(buscar.toLowerCase()))); 
+            setQuesos(dataQuesos.data);
+            setDataPagination(dataQuesos);
             setLoaded(true);
         }
 
         showData(queso_a_buscar);
-    }, [queso_a_buscar]);
+    }, [queso_a_buscar, number]);
 
     return (
         <Container className="quesos-container">
@@ -55,6 +65,7 @@ function Buscar() {
                                     </Col>
                                 )}
                             </Row>
+                            <CheesePagination last_page={dataPagination.last_page} current_page={dataPagination.current_page} path={dataPagination.path} url={'/quesos/buscar/' + queso_a_buscar} ></CheesePagination>
                         </Container>
                     ) : 
                     (
