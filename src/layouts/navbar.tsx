@@ -69,7 +69,7 @@ function NavbarEx() {
                                     onChange={handleChange}
                                 />
                                 <Link to={"/quesos/buscar/"+textoABuscar}>
-                                    <Button variant="outline-dark"><BsSearchHeart/></Button>
+                                    <Button variant="outline-dark buscar-boton"><BsSearchHeart/></Button>
                                 </Link>
                             </Form>
                         </Nav>

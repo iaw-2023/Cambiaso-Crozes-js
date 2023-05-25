@@ -1,8 +1,15 @@
+import { Container } from "react-bootstrap";
+
 function Carrito() {
     return (
-        <div>
-            <h1>Carrito</h1>
-        </div>
+        <Container className="quesos-container">
+            <h1 className="titulo">Carrito de Compras</h1>
+            <h3 className="subtitulo">Compre sus quesos</h3>
+            
+            <Container>
+                El carrito está vacío
+            </Container>
+        </Container>
     )
 }
 export default Carrito;
