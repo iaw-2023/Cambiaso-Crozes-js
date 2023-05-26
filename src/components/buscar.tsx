@@ -7,7 +7,7 @@ import DataPagination from "../models/dataPagination";
 import CheesePagination from "../layouts/pagination";
 
 function Buscar() {
-    const { queso_a_buscar,number } = useParams();
+    const { queso_a_buscar, number } = useParams();
 
     const[quesos,setQuesos] = useState([])
     const[isLoaded, setLoaded] = useState(false);    
@@ -15,26 +15,32 @@ function Buscar() {
 
     useEffect(() => {
         const urlQuesos = number !== undefined ? process.env.REACT_APP_MY_ENV + 'quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'quesos';
-
+        
         const urlBuscar = number !== undefined ? process.env.REACT_APP_MY_ENV + 'quesos/buscar/' + queso_a_buscar + '?page=' + number : process.env.REACT_APP_MY_ENV + 'quesos/buscar/' + queso_a_buscar;
-        var response;
 
         const showData = async(queso_a_buscar: any) => {
             setLoaded(false);
-            if(queso_a_buscar){
-               response = await fetch(urlBuscar);
-            }else{
-               response = await fetch(urlQuesos);
-            }
-            const dataQuesos = await response.json();
-            setQuesos(dataQuesos.data);
-            setDataPagination(dataQuesos);
-            setLoaded(true);
-        }
 
+            const buscar = queso_a_buscar ? queso_a_buscar : 'all';
+
+            if(buscar !== 'all') {
+                const response = await fetch(urlBuscar);
+                const dataQuesos = await response.json();
+                setQuesos(dataQuesos.data);
+                setDataPagination(dataQuesos);
+                setLoaded(true);
+            } else {
+                const response = await fetch(urlQuesos);
+                const dataQuesos = await response.json();
+                setQuesos(dataQuesos.data);
+                setDataPagination(dataQuesos);
+                setLoaded(true);
+            }
+                
+        }
         showData(queso_a_buscar);
     }, [queso_a_buscar, number]);
-
+    
     return (
         <Container className="quesos-container">
             <h1 className="titulo">Buscar {queso_a_buscar !== 'all' ? queso_a_buscar : ''}</h1>

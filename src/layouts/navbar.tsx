@@ -28,10 +28,12 @@ function NavbarEx() {
 
     const [textoABuscar, setTextoABuscar] = useState('');
     const handleChange = (e: any) => {
-        if(e.target.value == null || e.target.value.trim() === '')
+        var pattern = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/;
+        if(e.target.value == null || e.target.value.trim() === '' || !pattern.test(e.target.value))
             setTextoABuscar('all');
-        else
+        else 
             setTextoABuscar(e.target.value);
+           
     };
 
     return (

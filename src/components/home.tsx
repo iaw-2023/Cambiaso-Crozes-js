@@ -13,18 +13,19 @@ function Home() {
 
     const[quesosxcategoria,setQuesosxCategoria] = useState([])
     const [isLoaded, setLoaded] = useState(false);
-    
-    const url = 'https://cambiaso-crozes-laravel-955ex9rx5-cambiaso-crozes.vercel.app/rest/categorias'
 
     const showData = async() => {
+        const url = process.env.REACT_APP_MY_ENV + 'categorias?page=1&porPagina=5';
+
         const response = await fetch(url);
         const dataCategorias = await response.json();
         const aux: any = [];
-        const requests = dataCategorias.map(async (categoria: Categoria) =>
+        const requests = (dataCategorias.data).map(async (categoria: Categoria) =>
             {
-                const response2 = await fetch(url+'/'+categoria.id+'/quesos');
+                const url2 = process.env.REACT_APP_MY_ENV + 'categorias/'+categoria.id+'/quesos';
+                const response2 = await fetch(url2);
                 const dataQuesoxCategoria = await response2.json();
-                const info = [categoria.id, categoria.tipo_de_queso, dataQuesoxCategoria[0].foto];
+                const info = [categoria.id, categoria.tipo_de_queso, (dataQuesoxCategoria.data)[0].foto];
                 aux.push(info);
             }
         );
