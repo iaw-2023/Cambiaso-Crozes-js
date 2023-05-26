@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
@@ -16,21 +16,34 @@ function QuesosxCategoria() {
     const [isLoaded, setLoaded] = useState(false);
     const[dataPagination,setDataPagination] = useState<DataPagination>({'current_page': 1, 'last_page': 1, 'path':"", 'url':""});
 
-    useEffect(() => {
-        const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias';
+    // useEffect(() => {
+    //     const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
 
-        const showDataQuesosxCategoria = async(id: any) => {
-            setLoaded(false);
-            const response = await fetch(url+'/'+id+'/quesos');
-            const dataQuesosxCategoria = await response.json();
-            setDataPagination(dataQuesosxCategoria);
-            setQuesosxCategoria(dataQuesosxCategoria.data);
-            setLoaded(true);
-        }
+    //     const showDataQuesosxCategoria = async(id: any, number: any) => {
+    //         setLoaded(false);
+    //         const response = await fetch(url+'/'+id+'/quesos');
+    //         const dataQuesosxCategoria = await response.json();
+    //         setDataPagination(dataQuesosxCategoria);
+    //         setQuesosxCategoria(dataQuesosxCategoria.data);
+    //         setLoaded(true);
+    //     }
 
-        showDataQuesosxCategoria(id);
-    }, [id]);
+    //     showDataQuesosxCategoria(id, number);
+    // }, [id, number]);
+    const showDataQuesosxCategoria = useCallback(async () => {
+        const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
+        setLoaded(false);
+        const response = await fetch(url);
+        const dataQuesosxCategoria = await response.json();
+        setDataPagination(dataQuesosxCategoria);
+        setQuesosxCategoria(dataQuesosxCategoria.data);
+        setLoaded(true);
+    }, [id, number]);
     
+    useEffect(() => {
+        showDataQuesosxCategoria();
+    }, [showDataQuesosxCategoria]);
+
     return (
         <Container className="quesos-container">
             <h1 className="titulo">{tipo_de_queso}</h1>
