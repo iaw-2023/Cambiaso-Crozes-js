@@ -41,7 +41,7 @@ const Quesos = () => {
                             <Col className="card-col" key={idx}>
                             <Card className="custom-card quesos-card">
                                 <Card.Link as={Link} to={"/quesos/"+queso.id}>
-                                    <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} />
+                                    <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre} />
                                 </Card.Link>
                                 <Card.Body className="custom-card-body">
                                     <Card.Title>{queso.nombre}</Card.Title>

@@ -1,6 +1,6 @@
 import { BiCheese,BiHeart } from 'react-icons/bi';
 
- const Footer = () => {
+const Footer = () => {
     return (
         <footer className="page-footer font-small pt-4 navBg">
             <div className="container text-center">

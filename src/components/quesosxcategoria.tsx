@@ -58,7 +58,7 @@ function QuesosxCategoria() {
                             <Col className="card-col" key={idx}>
                                 <Card className="custom-card">
                                     <Card.Link as={Link} to={"/quesos/"+queso.nombre}>
-                                        <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} />
+                                        <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre}/>
                                     </Card.Link>
                                     <Card.Body className="custom-card-body">
                                         <Card.Title>{queso.nombre}</Card.Title>

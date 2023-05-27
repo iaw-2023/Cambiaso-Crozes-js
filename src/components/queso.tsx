@@ -1,5 +1,5 @@
 
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { useLocation, useParams } from "react-router-dom";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
@@ -9,17 +9,25 @@ function Queso() {
     const { nombre } = useParams(); 
     const location = useLocation();
     const { estado } = location.state; 
+    const [showAlert, setShowAlert] = useState(false);
 
     let [cantidadQueso, setCantidadQueso] = useState(250);
     const handleChange = (e: any) => {
         setCantidadQueso(e.target.value);
     };
 
+    const handleButtonClick = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 3000); // Desaparecerá después de 3 segundos (3000 ms)
+    };
+    
     return (
         <Container className="quesos-container">
             <Row xs={1} md={2}>
                 <Container >
-                    <img className="foto-queso" src={"data:image/png;base64," + estado.foto} alt=""/>
+                    <img className="foto-queso" src={"data:image/png;base64," + estado.foto} alt={nombre}/>
                 </Container>
                 <Container className="datos-queso">
                     <h2 className="titulo2">{nombre}</h2>
@@ -44,9 +52,14 @@ function Queso() {
                                 </FloatingLabel>
                             </Col>
                             <Col sm={4}>
-                                <Button variant="outline-warning" className="boton-comprar">Agregar al Carrito</Button>
+                                <Button variant="outline-warning" className="boton-comprar" onClick={handleButtonClick}>Agregar al Carrito</Button>
                             </Col>
                         </Row>
+                        {showAlert && (
+                            <Alert className="floating-alert"variant="warning" onClose={() => {setShowAlert(false)}} dismissible>
+                                Agregaste {cantidadQueso} gramos de {nombre} a tu carrito!
+                            </Alert>
+                        )}
                     </Container>
                 </Container>
             </Row>
@@ -54,7 +67,3 @@ function Queso() {
     )
 }
 export default Queso; 
-
-function handleChange(e: any) {
-    throw new Error("Function not implemented.");
-}

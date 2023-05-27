@@ -46,7 +46,7 @@ function NavbarEx() {
                             width="60"
                             height="60"
                             className="d-inline-block align-top"
-                            alt=""
+                            alt="Logo negro SayCheese"
                         />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

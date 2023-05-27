@@ -48,19 +48,19 @@ function Home() {
                     <img
                         className="d-block w-100"
                         src="/aa.png"
-                        alt=""/>
+                        alt="De nuestra fábrica a tu hogar"/>
                 </Carousel.Item>
                 <Carousel.Item interval={1000}>
                     <img
                         className="d-block w-100"
                         src="/bb.png"
-                        alt=""/>
+                        alt="Quesos varios SayCheese"/>
                 </Carousel.Item>
                 <Carousel.Item interval={1000}>
                     <img
                         className="d-block w-100"
                         src="/cc.png"
-                        alt=""/>
+                        alt="Queso azul muestra SayCheese"/>
                 </Carousel.Item>
             </Carousel>
             <hr className="separador"/>
@@ -75,7 +75,7 @@ function Home() {
                         {quesosxcategoria.map((quesoxcategoria: any, idx) => 
                             <Col className="card-col" key={idx}>
                             <Card className="custom-card">
-                                <Card.Img variant="top" src={"data:image/png;base64," + quesoxcategoria[2]} />
+                                <Card.Img variant="top" src={"data:image/png;base64," + quesoxcategoria[2]} alt={quesoxcategoria[1]}/>
                                 <Card.Body className="custom-card-body">
                                     <Card.Title>{quesoxcategoria[1]}</Card.Title>
                                     <Card.Link as={Link} to={"/quesos/categoria/"+quesoxcategoria[1]} state={{id: quesoxcategoria[0]}}>

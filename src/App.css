@@ -83,7 +83,7 @@ Carousel {
 
 .titulo {
   color: #F7D65A;
-  font-size: 8vw;
+  font-size: 7vmax;
   margin: 0;
 }
 
@@ -103,7 +103,7 @@ Carousel {
 
 .subtitulo {
   color: #F7D65A;
-  font-size: 2vw;
+  font-size: 2vmax;
   display: grid;
   grid-template-columns: 1fr max-content 1fr;
   grid-column-gap: 1.2rem;
@@ -222,4 +222,11 @@ Carousel {
 
 .page-link{
   color: black !important;
+}
+
+.floating-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
 }
