@@ -9,10 +9,12 @@ import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
 import { BsCart4,BsSearchHeart } from "react-icons/bs";
 import { Button } from 'react-bootstrap';
+import { useShoppingCart } from '../context/carrito-contexto';
 
 function NavbarEx() {
 
     const[categorias,setCategoria] = useState([])
+    const { cartQuantity } = useShoppingCart()
    
     useEffect(() => {
         const url = process.env.REACT_APP_MY_ENV + 'categorias';
@@ -38,7 +40,7 @@ function NavbarEx() {
 
     return (
         <>
-            <Navbar className="navBg" expand="lg">
+            <Navbar sticky='top' className="navBg" expand="lg">
                 <Container>
                     <Navbar.Brand as={Link} to="/">
                         <img 
@@ -60,8 +62,18 @@ function NavbarEx() {
                                 )}
                             </NavDropdown>
                         </Nav>
+                        <Nav className='carrito-nav'>
+                            <Nav.Link className='carrito-logo' as={Link} to="/carrito">
+                                <Button variant="outline-dark buscar-boton">
+                                    <BsCart4/>
+                                    
+                                    <div className='rounded-circle bg-black d-flex justify-content-center align-items-center carrito-logo-numero'>
+                                        {cartQuantity}
+                                    </div>
+                                </Button>
+                            </Nav.Link>
+                        </Nav>
                         <Nav>
-                            <Nav.Link as={Link} to="/carrito"><BsCart4/></Nav.Link>
                             <Form className="d-flex">
                                 <Form.Control
                                     type="search"

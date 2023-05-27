@@ -4,23 +4,40 @@ import { useLocation, useParams } from "react-router-dom";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
+import { useShoppingCart } from "../context/carrito-contexto";
+import Queso from '../models/queso';
 
-function Queso() {
+function QuesoIndividual() {
     const { nombre } = useParams(); 
     const location = useLocation();
     const { estado } = location.state; 
     const [showAlert, setShowAlert] = useState(false);
 
+    const {
+        increaseCartQuantity
+      } = useShoppingCart()
+
     let [cantidadQueso, setCantidadQueso] = useState(250);
     const handleChange = (e: any) => {
-        setCantidadQueso(e.target.value);
+        let cantQueso: number = e.target.value;
+        setCantidadQueso(cantQueso);
     };
+
+    const quesoActual: Queso ={
+        id: estado.id,
+        nombre: estado.nombre,
+        precio_x_kg: estado.precio_x_kg,
+        foto: estado.foto,
+        descripcion: estado.descripcion
+    }
 
     const handleButtonClick = () => {
         setShowAlert(true);
         setTimeout(() => {
             setShowAlert(false);
-        }, 3000); // Desaparecerá después de 3 segundos (3000 ms)
+        }, 3000); 
+        
+        increaseCartQuantity(estado.id, cantidadQueso, quesoActual);
     };
     
     return (
@@ -55,15 +72,19 @@ function Queso() {
                                 <Button variant="outline-warning" className="boton-comprar" onClick={handleButtonClick}>Agregar al Carrito</Button>
                             </Col>
                         </Row>
-                        {showAlert && (
-                            <Alert className="floating-alert"variant="warning" onClose={() => {setShowAlert(false)}} dismissible>
-                                Agregaste {cantidadQueso} gramos de {nombre} a tu carrito!
-                            </Alert>
-                        )}
+                        <Row>
+                            <Col sm={12}>
+                                {showAlert && (
+                                    <Alert className="floating-alert" variant="warning" onClose={() => {setShowAlert(false)}} dismissible>
+                                        Agregaste {cantidadQueso} gramos de {nombre} a tu carrito!
+                                    </Alert>
+                                )}
+                            </Col>
+                        </Row>
                     </Container>
                 </Container>
             </Row>
         </Container>
     )
 }
-export default Queso; 
+export default QuesoIndividual; 

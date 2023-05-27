@@ -46,7 +46,7 @@ const Quesos = () => {
                                 <Card.Body className="custom-card-body">
                                     <Card.Title>{queso.nombre}</Card.Title>
                                     <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
-                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
+                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
                                         <b><Button variant="outline-warning">Comprar</Button></b>
                                     </Card.Link>
                                 </Card.Body>
