@@ -1,31 +1,29 @@
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import Loading from "./loading";
-import { useShoppingCart } from "../context/carrito-contexto";
+import Loading from "../loading";
+import { useShoppingCart } from "../../context/carrito-contexto";
 import { Link } from "react-router-dom";
-import CartItem from "../models/carritoItem";
+import CartItem from "../../models/carritoItem";
 
 type EndOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     clienteHook: { cliente: any; setCliente: (cliente: any) => void};
-    clienteOriginalHook: { clienteOriginal: any; setClienteOriginal: (clienteOriginal: any) => void};
 };
 
-function EndOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }: EndOrderProps) {
+function EndOrder ({ pedidoHook, seccionHook, clienteHook }: EndOrderProps) {
 
     const carrito = useShoppingCart();
 
     const {pedido, setPedido} = pedidoHook;
-    const {seccion, setSeccion} = seccionHook;
+    //const {seccion, setSeccion} = seccionHook;
     const {cliente, setCliente} = clienteHook;
-    const {clienteOriginal, setClienteOriginal} = clienteOriginalHook;
 
     const [isLoaded, setLoaded] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [modificado, setModificado] = useState(false);
 
-    const actualizarPedido = () => {
+    useEffect(() => {
         setPedido({
             ...pedido,
             fecha: new Date().toLocaleDateString('sv'),
@@ -39,14 +37,9 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }
                 };
             })
         })
-    }
-
-    useEffect(() => {
-        actualizarPedido();
     }, [carrito]);
 
-    function crearPedido() {
-        console.log('3 ' +pedido.cliente_id);
+    function crearPedido(){
         const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos';
         fetch(urlPedido, {
             method: "POST",
@@ -61,7 +54,6 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }
                 throw new Error("Ocurrió un error al realizar el pedido");
             else {
                 setCliente({ id: "", nombre: "", apellido: "", ciudad: "", domicilio: "", email: "" });
-                setClienteOriginal({ id: "", nombre: "", apellido: "", ciudad: "", domicilio: "", email: "" });
                 carrito.emptyCart();
                 setLoaded(true);
             }
@@ -74,9 +66,10 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }
     useEffect(() => {
         if(pedido.cliente_id !== "" && modificado)
             crearPedido();
-    }, [pedido.cliente_id]);
+    }, [pedido.cliente_id, modificado]);
  
-    useEffect(() => {
+    
+    function crearCliente(){
         setLoaded(false);
         if(cliente.id === "") {
             const url = process.env.REACT_APP_MY_ENV + 'clientes';
@@ -124,6 +117,10 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }
                 setErrorMessage("No se pudo guardar el cliente, inténtalo más tarde");
             });  
         }
+    }
+
+    useEffect(() => {
+        crearCliente();
     }, []);
 
     return (
@@ -133,6 +130,11 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }
                     { errorMessage==="" ? (
                         <Container>
                             <h3>Su compra se ha realizado con éxito!</h3>
+                            <Link to={""}>
+                                <Button>
+                                
+                                </Button>
+                            </Link>
                         </Container>
                     ) : (
                         <Container>

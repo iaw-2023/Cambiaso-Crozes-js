@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Queso from '../models/queso';
 import { Link, useParams } from "react-router-dom";
 import Loading from "../layouts/loading";
-import CheesePagination from "../layouts/pagination";
+import CheesePagination from "../layouts/pagination/pagination";
 import DataPagination from '../models/dataPagination';
 
 const Quesos = () => {
@@ -39,18 +39,18 @@ const Quesos = () => {
                     <Row xs={1} md={2} className="cards-container2">
                         {quesos.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
-                            <Card className="custom-card quesos-card">
-                                <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
-                                    <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre} />
-                                </Card.Link>
-                                <Card.Body className="custom-card-body">
-                                    <Card.Title>{queso.nombre}</Card.Title>
-                                    <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
+                                <Card className="custom-card quesos-card">
                                     <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
-                                        <b><Button variant="outline-warning">Comprar</Button></b>
+                                        <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre} />
                                     </Card.Link>
-                                </Card.Body>
-                            </Card>
+                                    <Card.Body className="custom-card-body">
+                                        <Card.Title>{queso.nombre}</Card.Title>
+                                        <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
+                                        <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
+                                            <b><Button variant="outline-warning">Comprar</Button></b>
+                                        </Card.Link>
+                                    </Card.Body>
+                                </Card>
                             </Col>
                         )}
                     </Row>

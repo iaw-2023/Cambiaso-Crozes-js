@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Queso from "../models/queso";
 import Loading from "../layouts/loading";
-import CategoriesPagination from "../layouts/pagination-categories";
+import CategoriesPagination from "../layouts/pagination/pagination-categories";
 import DataPagination from "../models/dataPagination";
 
 function QuesosxCategoria() {
@@ -42,7 +42,7 @@ function QuesosxCategoria() {
                     <Row xs={1} md={3} className="cards-container2">
                         {quesosxcategoria.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
-                                <Card className="custom-card">
+                                <Card className="custom-card quesos-card">
                                     <Card.Link as={Link} to={"/quesos/"+queso.nombre}  state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
                                         <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre}/>
                                     </Card.Link>

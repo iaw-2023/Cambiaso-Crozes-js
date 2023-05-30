@@ -1,21 +1,18 @@
 import { Button, Container, Stack } from "react-bootstrap";
-import CartItem from "../models/carritoItem";
-import { useShoppingCart } from "../context/carrito-contexto";
+import CartItem from "../../models/carritoItem";
+import { useShoppingCart } from "../../context/carrito-contexto";
 import { useEffect } from "react";
 
 type ConfirmOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     clienteHook: { cliente: any; setCliente: (cliente: any) => void};
-    clienteOriginalHook: { clienteOriginal: any; setClienteOriginal: (clienteOriginal: any) => void};
 };
 
-function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHook }: ConfirmOrderProps) {
+function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderProps) {
 
-    const {pedido, setPedido} = pedidoHook;
-    const {seccion, setSeccion} = seccionHook;
-    const {cliente, setCliente} = clienteHook;
-    const {clienteOriginal, setClienteOriginal} = clienteOriginalHook;
+    const {setSeccion} = seccionHook;
+    const {cliente} = clienteHook;
 
     const carrito = useShoppingCart();
 
@@ -23,7 +20,9 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHo
         setSeccion(4);
     };
 
-    const actualizarPedido = () => {
+    useEffect(() => {
+        const {pedido, setPedido} = pedidoHook;
+        
         setPedido({
             ...pedido,
             fecha: new Date().toLocaleDateString('sv'),
@@ -37,10 +36,6 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHo
                 };
             })
         })
-    }
-
-    useEffect(() => {
-        actualizarPedido();
     }, [carrito]);
 
     return (
@@ -108,7 +103,9 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, clienteOriginalHo
                     </div>
                 ))}
                 <div className="ms-auto fw-bold fs-5">
-                <p>Total: ${pedido.precio_total}</p>
+                <p>Total: ${carrito.getCartItems().reduce((total, cartItem) => {
+                                return total + ((cartItem.queso.precio_x_kg) * (+cartItem.gramosQueso) / 1000)
+                            }, 0)}</p>
                 </div>
             </Stack>
             </Container>

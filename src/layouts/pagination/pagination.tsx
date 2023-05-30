@@ -1,5 +1,5 @@
 
-import DataPagination from '../models/dataPagination';
+import DataPagination from '../../models/dataPagination';
 import { useNavigate } from "react-router-dom";
 
 import Pagination from 'react-bootstrap/Pagination';

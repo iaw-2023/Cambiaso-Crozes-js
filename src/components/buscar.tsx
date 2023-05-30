@@ -4,7 +4,7 @@ import Queso from "../models/queso";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Loading from "../layouts/loading";
 import DataPagination from "../models/dataPagination";
-import CheesePagination from "../layouts/pagination";
+import CheesePagination from "../layouts/pagination/pagination";
 
 function Buscar() {
     const { queso_a_buscar, number } = useParams();

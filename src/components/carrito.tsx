@@ -2,13 +2,13 @@ import { Button, Container, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/carrito-contexto";
 import CartItem from '../models/carritoItem';
 import { BsFillTrashFill } from "react-icons/bs";
-import ConfirmarPedido from '../layouts/confirmation-modal';
+import ConfirmarPedido from '../layouts/compra-modal/confirmation-modal';
 
 function Carrito() {
     const {
         getCartItems,
-        increaseCartQuantity,
-        decreaseCartQuantity,
+        //increaseCartQuantity,
+        //decreaseCartQuantity,
         removeFromCart,
         cartQuantity
     } = useShoppingCart();
