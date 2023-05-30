@@ -62,6 +62,20 @@
   transform: translateX(10px);
 }
 
+.carrito-imagen-queso {
+  width: 125px;
+  height: 75px; 
+  object-fit: cover;
+}
+
+.carrito-cant-queso {
+  font-size: .65rem; 
+}
+
+.carrito-precio-queso {
+  font-size: .75rem;
+}
+
 .buscar-boton {
   --bs-btn-padding-y: 0.6rem !important;
 }
@@ -85,6 +99,14 @@ section {
   border: 0;
   height: 3px;
   background-image: linear-gradient(to right, rgba(0,0,0), #F7D65A, rgba(0,0,0));
+  opacity: 1;
+}
+
+.separador2 {
+  margin-top: 0;
+  border: 0;
+  height: 2px;
+  background-image: linear-gradient(to right, white, #F7D65A, white);
   opacity: 1;
 }
 
@@ -246,4 +268,16 @@ Carousel {
 .floating-alert {
   top: 20px;
   z-index: 9999;
+}
+
+.boton-form-pedido {
+  margin-top: 5px;
+}
+
+.datos-confirmar-pedido {
+  font-size: 1vmax; 
+}
+
+.boton-modal {
+  margin: 20px;
 }

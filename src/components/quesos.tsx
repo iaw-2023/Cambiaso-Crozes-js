@@ -40,7 +40,7 @@ const Quesos = () => {
                         {quesos.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
                             <Card className="custom-card quesos-card">
-                                <Card.Link as={Link} to={"/quesos/"+queso.id}>
+                                <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
                                     <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre} />
                                 </Card.Link>
                                 <Card.Body className="custom-card-body">

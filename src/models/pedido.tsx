@@ -1,6 +1,9 @@
+import Detalle from "./detalle";
+
 type Pedido = {
-    id:bigint;
     fecha:Date;
     precio_total:number;
+    cliente_id:bigint;
+    quesos:Detalle[];
 } 
 export default Pedido;

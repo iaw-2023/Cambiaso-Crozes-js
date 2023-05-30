@@ -16,20 +16,6 @@ function QuesosxCategoria() {
     const [isLoaded, setLoaded] = useState(false);
     const[dataPagination,setDataPagination] = useState<DataPagination>({'current_page': 1, 'last_page': 1, 'path':"", 'url':""});
 
-    // useEffect(() => {
-    //     const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
-
-    //     const showDataQuesosxCategoria = async(id: any, number: any) => {
-    //         setLoaded(false);
-    //         const response = await fetch(url+'/'+id+'/quesos');
-    //         const dataQuesosxCategoria = await response.json();
-    //         setDataPagination(dataQuesosxCategoria);
-    //         setQuesosxCategoria(dataQuesosxCategoria.data);
-    //         setLoaded(true);
-    //     }
-
-    //     showDataQuesosxCategoria(id, number);
-    // }, [id, number]);
     const showDataQuesosxCategoria = useCallback(async () => {
         const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
         setLoaded(false);
@@ -57,7 +43,7 @@ function QuesosxCategoria() {
                         {quesosxcategoria.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
                                 <Card className="custom-card">
-                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre}>
+                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre}  state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
                                         <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre}/>
                                     </Card.Link>
                                     <Card.Body className="custom-card-body">

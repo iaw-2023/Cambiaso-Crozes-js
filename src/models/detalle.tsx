@@ -1,5 +1,5 @@
 type Detalle = {
-    id:bigint;
+    queso_id:bigint;
     cantidad:number;
     subtotal:number;
 } 

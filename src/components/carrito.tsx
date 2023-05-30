@@ -2,6 +2,7 @@ import { Button, Container, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/carrito-contexto";
 import CartItem from '../models/carritoItem';
 import { BsFillTrashFill } from "react-icons/bs";
+import ConfirmarPedido from '../layouts/confirmation-modal';
 
 function Carrito() {
     const {
@@ -19,21 +20,21 @@ function Carrito() {
             {cartQuantity > 0 ? (
                 <Container>
                     <Stack gap={2}>
-                        {getCartItems().map((item: CartItem) => (
-                            <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
+                        {getCartItems().map((item: CartItem, idx) => (
+                            <Stack key={idx} direction="horizontal" gap={2} className="d-flex align-items-center">
                                 <img
-                                    src={"data:image/png;base64," + item.queso.foto}
-                                    style={{ width: "125px", height: "75px", objectFit: "cover" }}
-                                    alt=""
+                                    src={"data:image/png;base64," + item.queso.foto} 
+                                    className="carrito-imagen-queso"
+                                    alt={item.queso.nombre + " en el carrito"}
                                     />
                                 <div className="me-auto">
                                     <div>
                                         {item.queso.nombre}{" "}
-                                        <span className="text-muted" style={{ fontSize: ".65rem" }}>
+                                        <span className="text-muted carrito-cant-queso">
                                             x{item.gramosQueso}g
                                         </span>
                                     </div>
-                                    <div className="text-muted" style={{ fontSize: ".75rem" }}>
+                                    <div className="text-muted carrito-precio-queso">
                                         ${item.queso.precio_x_kg}
                                     </div>
                                 </div>
@@ -55,6 +56,9 @@ function Carrito() {
                             
                         </div>
                     </Stack>
+
+                    <ConfirmarPedido/>
+                    
                 </Container>
             ) : (
                 <Container>

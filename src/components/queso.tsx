@@ -15,7 +15,7 @@ function QuesoIndividual() {
 
     const {
         increaseCartQuantity
-      } = useShoppingCart()
+    } = useShoppingCart()
 
     let [cantidadQueso, setCantidadQueso] = useState(250);
     const handleChange = (e: any) => {
