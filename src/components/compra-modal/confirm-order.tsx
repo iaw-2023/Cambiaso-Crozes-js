@@ -7,12 +7,14 @@ type ConfirmOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     clienteHook: { cliente: any; setCliente: (cliente: any) => void};
+    showHook: { show: boolean; setShow: (show: boolean) => void};
 };
 
-function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderProps) {
+function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: ConfirmOrderProps) {
 
     const {setSeccion} = seccionHook;
     const {cliente} = clienteHook;
+    const {show, setShow} = showHook;
 
     const carrito = useShoppingCart();
 
@@ -116,6 +118,9 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderPro
             <div className="div-botones-modal">
                 <Button className="boton-int-modal" variant="outline-dark" onClick={() => {setSeccion(2)}}>
                     Anterior
+                </Button>
+                <Button className="boton-int-modal" variant="outline-danger" onClick={() => setShow(false)}>
+                    Cerrar
                 </Button>
                 <Button className="boton-int-modal" variant="outline-warning" type="submit" onClick={handleSubmitPedido}>
                     Confirmar Compra

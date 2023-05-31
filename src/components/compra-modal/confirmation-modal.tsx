@@ -29,7 +29,10 @@ function ConfirmarPedido() {
         email: ""
     });
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setSeccion(1);
+    };
     const handleShow = () => setShow(true);
 
     const [seccion, setSeccion] = useState(1);
@@ -41,29 +44,29 @@ function ConfirmarPedido() {
         </Button>
 
         <Modal show={show} onHide={handleClose} backdrop="static" >
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title><h1>Confirmar compra</h1></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {seccion === 1 && (
                     <SearchClient 
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
                     />
                     
                 )}
                 {seccion === 2 && (
                     <CreateClient
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
                     />
                 )}
                 {seccion === 3 && (
                     <ConfirmOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} 
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
                     />
                 )}
                 {seccion === 4 && (
                     <EndOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
                     />
                 )}
             </Modal.Body>

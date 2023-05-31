@@ -6,13 +6,15 @@ type SearchClientProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     clienteHook: { cliente: any; setCliente: (cliente: any) => void};
+    showHook: { show: boolean; setShow: (show: boolean) => void};
 };
 
-function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientProps) {
+function SearchClient ({ pedidoHook, seccionHook, clienteHook, showHook }: SearchClientProps) {
     
     const {pedido, setPedido} = pedidoHook;
     const {setSeccion} = seccionHook;
     const {cliente, setCliente} = clienteHook;
+    const {show, setShow} = showHook;
 
     const [email, setEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -93,7 +95,10 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientPro
                             </FloatingLabel>
                         </InputGroup>
                     </Form.Group>
-                    <div className="div-primer-boton">
+                    <div className="div-botones-modal">
+                        <Button className="boton-int-modal" variant="outline-danger" onClick={() => setShow(false)}>
+                            Cerrar
+                        </Button>
                         <Button className="boton-int-modal" variant="outline-warning" onClick={handleSubmitEmail} disabled={!validated}>
                             Siguiente
                         </Button>
