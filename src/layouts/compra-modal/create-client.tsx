@@ -112,12 +112,14 @@ function CreateClient ({ seccionHook, clienteHook }: CreateClientProps) {
                     </FloatingLabel>
                 </InputGroup>
             </Form.Group>
-            <Button className="boton-form-pedido" variant="outline-dark" onClick={() => {setSeccion(1)}}>
-                Anterior
-            </Button>
-            <Button className="boton-form-pedido" variant="outline-warning" onClick={handleSubmitCliente}>
-                Siguiente
-            </Button>
+            <div className="div-botones-modal">
+                <Button className="boton-int-modal" variant="outline-dark" onClick={() => {setSeccion(1)}}>
+                    Anterior
+                </Button>
+                <Button className="boton-int-modal" variant="outline-warning" onClick={handleSubmitCliente}>
+                    Siguiente
+                </Button>
+            </div>
             
         </Form>
     )

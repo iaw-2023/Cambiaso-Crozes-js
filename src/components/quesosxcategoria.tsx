@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Queso from "../models/queso";
 import Loading from "../layouts/loading";
 import CategoriesPagination from "../layouts/pagination/pagination-categories";
 import DataPagination from "../models/dataPagination";
+import QuesoCard from "./cards/queso-card";
 
 function QuesosxCategoria() {
     const { tipo_de_queso, number } = useParams(); //Recupero el tipo de queso de la url
@@ -16,19 +17,18 @@ function QuesosxCategoria() {
     const [isLoaded, setLoaded] = useState(false);
     const[dataPagination,setDataPagination] = useState<DataPagination>({'current_page': 1, 'last_page': 1, 'path':"", 'url':""});
 
-    const showDataQuesosxCategoria = useCallback(async () => {
-        const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
-        setLoaded(false);
-        const response = await fetch(url);
-        const dataQuesosxCategoria = await response.json();
-        setDataPagination(dataQuesosxCategoria);
-        setQuesosxCategoria(dataQuesosxCategoria.data);
-        setLoaded(true);
-    }, [id, number]);
-    
     useEffect(() => {
-        showDataQuesosxCategoria();
-    }, [showDataQuesosxCategoria]);
+        const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
+        const showDataQuesosxCategoria = async(id: any, number: any) => {
+            setLoaded(false);
+            const response = await fetch(url);
+            const dataQuesosxCategoria = await response.json();
+            setDataPagination(dataQuesosxCategoria);
+            setQuesosxCategoria(dataQuesosxCategoria.data);
+            setLoaded(true);
+        }
+        showDataQuesosxCategoria(id, number);
+    }, [id, number]);
 
     return (
         <Container className="quesos-container">
@@ -42,18 +42,7 @@ function QuesosxCategoria() {
                     <Row xs={1} md={3} className="cards-container2">
                         {quesosxcategoria.map((queso: Queso, idx) => 
                             <Col className="card-col" key={idx}>
-                                <Card className="custom-card quesos-card">
-                                    <Card.Link as={Link} to={"/quesos/"+queso.nombre}  state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
-                                        <Card.Img variant="top" src={"data:image/png;base64," + queso.foto} alt={queso.nombre}/>
-                                    </Card.Link>
-                                    <Card.Body className="custom-card-body">
-                                        <Card.Title>{queso.nombre}</Card.Title>
-                                        <Card.Text className="card-text">${queso.precio_x_kg}/kg</Card.Text>
-                                        <Card.Link as={Link} to={"/quesos/"+queso.nombre} state={{estado:{id: queso.id, nombre: queso.nombre, foto:queso.foto, descripcion:queso.descripcion, precio_x_kg:queso.precio_x_kg}}}>
-                                            <b><Button variant="outline-warning">Comprar</Button></b>
-                                        </Card.Link>
-                                    </Card.Body>
-                                </Card>
+                                <QuesoCard queso={queso}/>
                             </Col>
                         )}
                     </Row>

@@ -40,7 +40,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderPro
 
     return (
         <Container>
-            <Container className="border rounded border-black">
+            <Container className="border rounded border-black container-info-pedido">
             <h3>Datos del cliente</h3>
             <Stack gap={2}>    
                 <div className="me-auto">
@@ -76,7 +76,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderPro
             </Stack>
             </Container>
 
-            <Container className="border rounded border-black">
+            <Container className="border rounded border-black container-info-pedido">
             <h3>Datos del pedido</h3>
             <Stack gap={2}>
                 {carrito.getCartItems().map((item: CartItem, idx:any) => (
@@ -109,12 +109,15 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderPro
                 </div>
             </Stack>
             </Container>
-            <Button className="boton-form-pedido" variant="outline-dark" onClick={() => {setSeccion(2)}}>
-                Anterior
-            </Button>
-            <Button className="boton-form-pedido" variant="outline-warning" type="submit" onClick={handleSubmitPedido}>
-                Confirmar Compra
-            </Button>
+            <div className="div-botones-modal">
+                <Button className="boton-int-modal" variant="outline-dark" onClick={() => {setSeccion(2)}}>
+                    Anterior
+                </Button>
+                <Button className="boton-int-modal" variant="outline-warning" type="submit" onClick={handleSubmitPedido}>
+                    Confirmar Compra
+                </Button>
+            </div>
+           
         </Container>
     )
 }

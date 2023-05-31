@@ -13,8 +13,8 @@ import { useShoppingCart } from '../context/carrito-contexto';
 
 function NavbarEx() {
 
-    const[categorias,setCategoria] = useState([])
-    const { cartQuantity } = useShoppingCart()
+    const [categorias, setCategoria] = useState([]);
+    const { cartQuantity } = useShoppingCart();
    
     useEffect(() => {
         const url = process.env.REACT_APP_MY_ENV + 'categorias';
@@ -29,13 +29,19 @@ function NavbarEx() {
     }, []);
 
     const [textoABuscar, setTextoABuscar] = useState('');
+
     const handleChange = (e: any) => {
         var pattern = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/;
         if(e.target.value == null || e.target.value.trim() === '' || !pattern.test(e.target.value))
             setTextoABuscar('all');
         else 
             setTextoABuscar(e.target.value);
-           
+    };
+
+    const handleKeyDown = (e:any) => {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+        }
     };
 
     return (
@@ -81,6 +87,7 @@ function NavbarEx() {
                                     className="me-2"
                                     aria-label="Search"
                                     onChange={handleChange}
+                                    onKeyDown={handleKeyDown}
                                 />
                                 <Link to={"/quesos/buscar/"+textoABuscar}>
                                     <Button variant="outline-dark buscar-boton"><BsSearchHeart/></Button>
@@ -96,6 +103,6 @@ function NavbarEx() {
             </section>
             
         </>
-    )
+    );
 }
 export default NavbarEx;

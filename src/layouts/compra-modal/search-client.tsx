@@ -91,9 +91,11 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientPro
                             </FloatingLabel>
                         </InputGroup>
                     </Form.Group>
-                    <Button className="boton-form-pedido" variant="outline-warning" onClick={handleSubmitEmail} disabled={!validated}>
-                        Siguiente
-                    </Button>
+                    <div className="div-primer-boton">
+                        <Button className="boton-int-modal" variant="outline-warning" onClick={handleSubmitEmail} disabled={!validated}>
+                            Siguiente
+                        </Button>
+                    </div>
                 </Form>
             ):(
                 <Loading></Loading>
