@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 
 type CreateClientProps = {
+    pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     clienteHook: { cliente: any; setCliente: (cliente: any) => void};
 };
 
-function CreateClient ({ seccionHook, clienteHook }: CreateClientProps) {
+function CreateClient ({ pedidoHook, seccionHook, clienteHook }: CreateClientProps) {
 
+    const {pedido, setPedido} = pedidoHook;
     const {setSeccion} = seccionHook;
     const {cliente, setCliente} = clienteHook;
 
@@ -55,7 +57,7 @@ function CreateClient ({ seccionHook, clienteHook }: CreateClientProps) {
                         type="text"
                         placeholder="Ingrese su nombre"
                         value={cliente.nombre}
-                        onChange={(e) => setCliente({...cliente, nombre: e.target.value})}
+                        onChange={(e) => {setCliente({...cliente, nombre: e.target.value}); setPedido({...pedido, cliente_nombre: e.target.value});}}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -71,7 +73,7 @@ function CreateClient ({ seccionHook, clienteHook }: CreateClientProps) {
                         type="text"
                         placeholder="Ingrese su apellido"
                         value={cliente.apellido}
-                        onChange={(e) => setCliente({...cliente, apellido: e.target.value})}
+                        onChange={(e) => {setCliente({...cliente, apellido: e.target.value}); setPedido({...pedido, cliente_apellido: e.target.value});}}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -87,7 +89,7 @@ function CreateClient ({ seccionHook, clienteHook }: CreateClientProps) {
                         type="text"
                         placeholder="Ingrese su ciudad"
                         value={cliente.ciudad}
-                        onChange={(e) => setCliente({...cliente, ciudad: e.target.value})}
+                        onChange={(e) => { setCliente({...cliente, ciudad: e.target.value}); setPedido({...pedido, cliente_ciudad: e.target.value});}}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -103,7 +105,7 @@ function CreateClient ({ seccionHook, clienteHook }: CreateClientProps) {
                         type="text"
                         placeholder="Ingrese su domicilio"
                         value={cliente.domicilio}
-                        onChange={(e) => setCliente({...cliente, domicilio: e.target.value})}
+                        onChange={(e) => {setCliente({...cliente, domicilio: e.target.value}); setPedido({...pedido, cliente_domicilio: e.target.value});}}
                         required
                     />
                     <Form.Control.Feedback type="invalid">

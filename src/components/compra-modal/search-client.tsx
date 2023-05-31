@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, FloatingLabel, Form, InputGroup } from "react-bootstrap";
-import Loading from "../loading";
+import Loading from "../../layouts/loading";
 
 type SearchClientProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
@@ -20,7 +20,6 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientPro
     const [validated, setValidated] = useState(false);
 
     const handleEmailChange = (e:any) => {
-        
         setValidated(false);
         setEmail(e.target.value);
         setCliente({
@@ -31,10 +30,9 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientPro
             domicilio: "",
             email: ""
         })
-        validarEmail();
     };
 
-    const validarEmail = () => {
+    useEffect(() => {
         var pattern = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/;
         setValidated(false);
         if (email === "") {
@@ -45,7 +43,7 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientPro
             setErrorMessage("");
             setValidated(true);
         }
-    }
+    }, [email]);
 
     const handleSubmitEmail = async() => {
         setLoaded(false);
@@ -58,6 +56,10 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook }: SearchClientPro
             setPedido({
                 ...pedido,
                 cliente_id: dataCliente[0].id,
+                cliente_nombre: dataCliente[0].nombre,
+                cliente_apellido: dataCliente[0].apellido,
+                cliente_ciudad: dataCliente[0].ciudad,
+                cliente_domicilio: dataCliente[0].domicilio,
             });
         } else {
             // no existe el cliente

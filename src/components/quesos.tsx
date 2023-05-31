@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import Loading from "../layouts/loading";
 import CheesePagination from "../layouts/pagination/pagination";
 import DataPagination from '../models/dataPagination';
-import QuesoCard from "./cards/queso-card";
+import QuesoCard from "../layouts/cards/queso-card";
 
 const Quesos = () => {
     const { number } = useParams(); //Recupero el tipo de queso de la url

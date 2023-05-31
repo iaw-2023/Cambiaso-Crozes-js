@@ -8,7 +8,7 @@ import Categoria from '../models/categoria';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Loading from '../layouts/loading';
-import CategoriaCard from './cards/categoria-card';
+import CategoriaCard from '../layouts/cards/categoria-card';
 
 function Home() {
 

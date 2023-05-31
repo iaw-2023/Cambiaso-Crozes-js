@@ -96,10 +96,12 @@ section {
 
 .carrito-cant-queso {
   font-size: .65rem; 
+  color:rgb(150, 150, 150);
 }
 
 .carrito-precio-queso {
   font-size: .75rem;
+  color:rgb(150, 150, 150);
 }
 
 /* Separadores */
@@ -302,6 +304,7 @@ Carousel {
 
 .datos-confirmar-pedido {
   font-size: 1vmax; 
+  color:rgb(89, 89, 89);
 }
 
 .boton-modal {
@@ -310,4 +313,14 @@ Carousel {
 
 .container-info-pedido {
   margin-bottom: 10px;
+}
+
+.pedido-cant-queso {
+  font-size: .65rem; 
+  color:rgb(89, 89, 89);
+}
+
+.pedido-precio-queso {
+  font-size: .75rem;
+  color:rgb(89, 89, 89);
 }

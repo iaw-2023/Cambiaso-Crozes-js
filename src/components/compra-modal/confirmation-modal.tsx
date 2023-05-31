@@ -12,7 +12,11 @@ function ConfirmarPedido() {
     const [pedido, setPedido] = useState({
         fecha: "",
         precio_total: 0,
-        cliente_id: "",
+        cliente_id: 0,
+        cliente_nombre: "",
+        cliente_apellido: "",
+        cliente_ciudad: "",
+        cliente_domicilio: "",
         quesos: {}
     });
 
@@ -49,7 +53,7 @@ function ConfirmarPedido() {
                 )}
                 {seccion === 2 && (
                     <CreateClient
-                        seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }}
                     />
                 )}
                 {seccion === 3 && (

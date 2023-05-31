@@ -2,7 +2,7 @@ import { Button, Container, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/carrito-contexto";
 import CartItem from '../models/carritoItem';
 import { BsFillTrashFill } from "react-icons/bs";
-import ConfirmarPedido from '../layouts/compra-modal/confirmation-modal';
+import ConfirmarPedido from './compra-modal/confirmation-modal';
 
 function Carrito() {
     const {
@@ -30,11 +30,11 @@ function Carrito() {
                                 <div className="me-auto">
                                     <div>
                                         {item.queso.nombre}{" "}
-                                        <span className="text-muted carrito-cant-queso">
+                                        <span className="carrito-cant-queso">
                                             x{item.gramosQueso}g
                                         </span>
                                     </div>
-                                    <div className="text-muted carrito-precio-queso">
+                                    <div className="carrito-precio-queso">
                                         ${item.queso.precio_x_kg}
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@ function Carrito() {
                                     variant="outline-danger"
                                     size="sm"
                                     onClick={() => removeFromCart(item.id)}
-                                    >
+                                    aria-label="Botón para eliminar un queso del carrito">
                                     <BsFillTrashFill/>
                                 </Button>
                             </Stack>

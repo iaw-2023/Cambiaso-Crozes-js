@@ -43,7 +43,7 @@ function QuesoIndividual() {
     return (
         <Container className="quesos-container">
             <Row xs={1} md={2}>
-                <Container >
+                <Container>
                     <img className="foto-queso" src={"data:image/png;base64," + estado.foto} alt={nombre}/>
                 </Container>
                 <Container className="datos-queso">

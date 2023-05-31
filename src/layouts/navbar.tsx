@@ -90,7 +90,7 @@ function NavbarEx() {
                                     onKeyDown={handleKeyDown}
                                 />
                                 <Link to={"/quesos/buscar/"+textoABuscar}>
-                                    <Button variant="outline-dark buscar-boton"><BsSearchHeart/></Button>
+                                    <Button variant="outline-dark buscar-boton" aria-label="Botón para buscar un queso"><BsSearchHeart/></Button>
                                 </Link>
                             </Form>
                         </Nav>

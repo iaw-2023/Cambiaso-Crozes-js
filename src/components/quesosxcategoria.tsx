@@ -6,7 +6,7 @@ import Queso from "../models/queso";
 import Loading from "../layouts/loading";
 import CategoriesPagination from "../layouts/pagination/pagination-categories";
 import DataPagination from "../models/dataPagination";
-import QuesoCard from "./cards/queso-card";
+import QuesoCard from "../layouts/cards/queso-card";
 
 function QuesosxCategoria() {
     const { tipo_de_queso, number } = useParams(); //Recupero el tipo de queso de la url

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import Loading from "../loading";
+import Loading from "../../layouts/loading";
 import { useShoppingCart } from "../../context/carrito-contexto";
 import { Link } from "react-router-dom";
 import CartItem from "../../models/carritoItem";
@@ -16,12 +16,10 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook }: EndOrderProps) {
     const carrito = useShoppingCart();
 
     const {pedido, setPedido} = pedidoHook;
-    //const {seccion, setSeccion} = seccionHook;
     const {cliente, setCliente} = clienteHook;
 
     const [isLoaded, setLoaded] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [modificado, setModificado] = useState(false);
 
     useEffect(() => {
         setPedido({
@@ -40,7 +38,7 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook }: EndOrderProps) {
     }, [carrito]);
 
     function crearPedido(){
-        const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos';
+        const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos/' + cliente.email;
         fetch(urlPedido, {
             method: "POST",
             headers: {
@@ -64,65 +62,9 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook }: EndOrderProps) {
     }
 
     useEffect(() => {
-        if(pedido.cliente_id !== "" && modificado)
             crearPedido();
-    }, [pedido.cliente_id, modificado]);
- 
-    
-    function crearCliente(){
-        setLoaded(false);
-        if(cliente.id === "") {
-            const url = process.env.REACT_APP_MY_ENV + 'clientes';
-            const clienteCreado = {nombre: cliente.nombre, apellido: cliente.apellido, ciudad: cliente.ciudad, domicilio: cliente.domicilio, email: cliente.email}
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": "",
-                    "Content-Type": "application/json",
-                    accept: "application/json",
-                },
-                body: JSON.stringify(clienteCreado)
-            }).then((response) => {
-                if (!response.ok) 
-                    throw new Error("Ocurrió un error al guardar el cliente");
-                else {
-                    return response.json();
-                }    
-            }).then((data) => {
-                setCliente({...cliente, id: data.data});
-                setPedido({...pedido, cliente_id: data.data});
-                setModificado(true);
-            }).catch((error: Error) => {
-                setLoaded(true);
-                setErrorMessage("No se pudo guardar el cliente, inténtalo más tarde");
-            });        
-        } else {
-            const url = process.env.REACT_APP_MY_ENV + 'clientes/' + cliente.id;
-            const clienteModificado = {nombre: cliente.nombre, apellido: cliente.apellido, ciudad: cliente.ciudad, domicilio: cliente.domicilio, email: cliente.email}
-            fetch(url, {
-                method: "PUT",
-                headers: {
-                    "X-CSRF-TOKEN": "",
-                    "Content-Type": "application/json",
-                    accept: "application/json",
-                },
-                body: JSON.stringify(clienteModificado)
-            }).then((response) => {
-                if (!response.ok) 
-                    throw new Error("Ocurrió un error al guardar el cliente"); 
-            }).then(() => {
-                crearPedido();
-            }).catch((error:Error) => {
-                setLoaded(true);
-                setErrorMessage("No se pudo guardar el cliente, inténtalo más tarde");
-            });  
-        }
-    }
-
-    useEffect(() => {
-        crearCliente();
     }, []);
-
+ 
     return (
         <Container>
             { isLoaded ? (
@@ -138,7 +80,6 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook }: EndOrderProps) {
                         </Container>
                     ) : (
                         <Container>
-                            <>{pedido.cliente_id}</>
                             <h3>{errorMessage}</h3>   
                         </Container>
                     )}

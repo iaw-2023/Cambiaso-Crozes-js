@@ -40,43 +40,47 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderPro
 
     return (
         <Container>
-            <Container className="border rounded border-black container-info-pedido">
+            <Container className="border-dashed border-2 border-gray-200 rounded container-info-pedido">
             <h3>Datos del cliente</h3>
             <Stack gap={2}>    
                 <div className="me-auto">
                     <div>
                         <p>
-                        <span className="datos-confirmar-pedido">
-                            Nombre:{" "}{cliente.nombre}
-                        </span>
+                            Nombre:{" "}
+                            <span className="datos-confirmar-pedido">
+                                {cliente.nombre}
+                            </span>
                         </p>
                     </div>
                     <div>
                         <p>
-                        <span className="datos-confirmar-pedido">
-                            Apellido:{" "}{cliente.apellido}
-                        </span>
+                            Apellido:{" "}
+                            <span className="datos-confirmar-pedido">
+                                {cliente.apellido}
+                            </span>
                         </p>
                     </div>
                     <div>
                         <p>
-                        <span className="datos-confirmar-pedido">
-                            Ciudad:{" "}{cliente.ciudad}
-                        </span>
+                            Ciudad:{" "}
+                            <span className="datos-confirmar-pedido">
+                                {cliente.ciudad}
+                            </span>
                         </p>
                     </div>
                     <div>
                         <p>
-                        <span className="datos-confirmar-pedido">
-                            Domicilio:{" "}{cliente.domicilio}
-                        </span>
+                            Domicilio:{" "}
+                            <span className="datos-confirmar-pedido">
+                                {cliente.domicilio}
+                            </span>
                         </p>
                     </div>
                 </div>
             </Stack>
             </Container>
 
-            <Container className="border rounded border-black container-info-pedido">
+            <Container className="border-dashed border-2 border-gray-200 rounded container-info-pedido">
             <h3>Datos del pedido</h3>
             <Stack gap={2}>
                 {carrito.getCartItems().map((item: CartItem, idx:any) => (
@@ -86,12 +90,12 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook }: ConfirmOrderPro
                             <div>
                                 <p>
                                 {item.queso.nombre}{" "}
-                                <span className="text-muted carrito-cant-queso">
+                                <span className="pedido-cant-queso">
                                     x{item.gramosQueso}g
                                 </span>
                                 </p>
                             </div>
-                            <div className="text-muted carrito-precio-queso">
+                            <div className="pedido-precio-queso">
                                 <p>
                                 ${item.queso.precio_x_kg}
                                 </p>
