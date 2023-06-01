@@ -241,6 +241,11 @@ Carousel {
   color: #F7D65A !important;
   background-color: black !important;
   border-color: #F7D65A !important;
+  width: 80% !important;
+}
+
+.seleccionar-queso-label {
+  width: 100% !important;
 }
 
 .boton-comprar {

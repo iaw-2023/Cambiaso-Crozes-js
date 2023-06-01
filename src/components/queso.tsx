@@ -57,7 +57,7 @@ function QuesoIndividual() {
                             <Row>
                                 <Col sm={8}>
                                     <FloatingLabel
-                                    className=""
+                                    className="seleccionar-queso-label"
                                     controlId="floatingSelectGrid"
                                     label="Seleccione la cantidad de queso deseada"
                                     >
