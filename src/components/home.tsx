@@ -17,24 +17,31 @@ function Home() {
 
     const showData = async() => {
         const url = process.env.REACT_APP_MY_ENV + 'categorias?page=1&porPagina=5';
+        try {
+            const response = await fetch(url);
+            if(!response.ok)
+                throw new Error("Ocurrió un error");
+            const dataCategorias = await response.json();
+            const aux: any = [];
+            const requests = (dataCategorias.data).map(async (categoria: Categoria) =>
+                {
+                    const url2 = process.env.REACT_APP_MY_ENV + 'categorias/'+categoria.id+'/quesos';
+                    const response2 = await fetch(url2);
+                    if(!response2.ok)
+                        throw new Error("Ocurrió un error");
+                    const dataQuesoxCategoria = await response2.json();
+                    const info = [categoria.id, categoria.tipo_de_queso, (dataQuesoxCategoria.data)[0].foto];
+                    aux.push(info);
+                }
+            );
 
-        const response = await fetch(url);
-        const dataCategorias = await response.json();
-        const aux: any = [];
-        const requests = (dataCategorias.data).map(async (categoria: Categoria) =>
-            {
-                const url2 = process.env.REACT_APP_MY_ENV + 'categorias/'+categoria.id+'/quesos';
-                const response2 = await fetch(url2);
-                const dataQuesoxCategoria = await response2.json();
-                const info = [categoria.id, categoria.tipo_de_queso, (dataQuesoxCategoria.data)[0].foto];
-                aux.push(info);
-            }
-        );
-
-        Promise.all(requests).then(() => {
-            setQuesosxCategoria(aux);
+            Promise.all(requests).then(() => {
+                setQuesosxCategoria(aux);
+                setLoaded(true);
+            });
+        }catch(error) {
             setLoaded(true);
-        });
+        }
 
     }
 

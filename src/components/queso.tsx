@@ -1,6 +1,6 @@
 
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, Navigate } from "react-router-dom";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
@@ -86,9 +86,7 @@ function QuesoIndividual() {
                     </Container>
                 </Row>
             ) : (
-                <div>
-                    Error
-                </div>
+                <Navigate to="/"/>
             )}
         </Container>
     )

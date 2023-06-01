@@ -7,8 +7,8 @@ import ConfirmarPedido from './compra-modal/confirmation-modal';
 function Carrito() {
     const {
         getCartItems,
-        //increaseCartQuantity,
-        //decreaseCartQuantity,
+        increaseCartQuantity,
+        decreaseCartQuantity,
         removeFromCart,
         cartQuantity
     } = useShoppingCart();
@@ -27,18 +27,28 @@ function Carrito() {
                                     className="carrito-imagen-queso"
                                     alt={item.queso.nombre + " en el carrito"}
                                     />
-                                <div className="me-auto">
+                                <div className="carrito-item-detalles">
                                     <div>
                                         {item.queso.nombre}{" "}
-                                        <span className="carrito-cant-queso">
-                                            x{item.gramosQueso}g
-                                        </span>
                                     </div>
                                     <div className="carrito-precio-queso">
-                                        ${item.queso.precio_x_kg}
+                                        ${item.queso.precio_x_kg}/kg
                                     </div>
                                 </div>
-                                <div> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)}</div>
+                                
+                                <div className="carrito-item-acciones me-auto">
+                                <Button variant="outline-warning" onClick={() => decreaseCartQuantity(item.id, 250)}>
+                                    -250g
+                                </Button>
+                                <div className="carrito-item-cantidad">
+                                    <span>x{item.gramosQueso}g</span>
+                                </div>
+                                <Button variant="outline-warning" onClick={() => increaseCartQuantity(item.id, 250, item.queso)}>
+                                    +250g
+                                </Button>
+                                </div>
+
+                                <div className="carrito-item-precio"> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)}</div>
                                 <Button
                                     variant="outline-danger"
                                     size="sm"

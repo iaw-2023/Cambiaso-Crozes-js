@@ -52,7 +52,10 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: EndOrderP
             body: JSON.stringify(pedido)
         }).then((response) => {
             if (!response.ok) {
-                throw new Error("Ocurrió un error al realizar el pedido");   
+                if(response.status === 422)
+                    throw new Error("No tenemos alguno de los quesos que solicitaste, debemos reiniciar tu carrito :(");   
+                else
+                    throw new Error("No se pudo realizar el pedido, inténtalo más tarde");   
             }
             else {
                 setCliente({ id: "", nombre: "", apellido: "", ciudad: "", domicilio: "", email: "" });
@@ -60,7 +63,7 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: EndOrderP
             }
         }).catch((error: Error) => {
             setLoaded(true);
-            setErrorMessage("No se pudo realizar el pedido, inténtalo más tarde");
+            setErrorMessage(error.message);
         });
     }
 
@@ -86,13 +89,12 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: EndOrderP
                     ) : (
                         <Container>
                             <h3>{errorMessage}</h3>  
-                            <div className="div-botones-modal">
-                                <Button className="boton-int-modal" variant="outline-danger" onClick={() => setShow(false)}>
-                                    Cerrar
-                                </Button>
-                                <Button className="boton-int-modal" variant="outline-warning" onClick={() => setSeccion(3)}>
-                                    Reintentar
-                                </Button>
+                            <div className="div-primer-boton">
+                                <Link to="/">
+                                    <Button className="boton-int-modal" variant="outline-warning" onClick={() => {setSeccion(1); carrito.emptyCart();}}>
+                                        Volver al Inicio
+                                    </Button>
+                                </Link>
                             </div>
                         </Container>
                     )}

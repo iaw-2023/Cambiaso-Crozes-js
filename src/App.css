@@ -104,6 +104,24 @@ section {
   color:rgb(150, 150, 150);
 }
 
+.carrito-item-detalles {
+  margin-right: 10px;
+}
+
+.carrito-item-acciones {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.carrito-item-precio {
+  margin-right: 10px;
+}
+
+.carrito-item-cantidad {
+  margin: 4px;
+}
+
 /* Separadores */
 
 .separador {
@@ -324,3 +342,4 @@ Carousel {
   font-size: .75rem;
   color:rgb(89, 89, 89);
 }
+

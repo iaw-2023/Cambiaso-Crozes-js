@@ -23,21 +23,28 @@ function Buscar() {
             setLoaded(false);
 
             const buscar = queso_a_buscar ? queso_a_buscar : 'all';
-
-            if(buscar !== 'all') {
-                const response = await fetch(urlBuscar);
-                const dataQuesos = await response.json();
-                setQuesos(dataQuesos.data);
-                setDataPagination(dataQuesos);
-                setLoaded(true);
-            } else {
-                const response = await fetch(urlQuesos);
-                const dataQuesos = await response.json();
-                setQuesos(dataQuesos.data);
-                setDataPagination(dataQuesos);
+            try {
+                if(buscar !== 'all') {
+                    const response = await fetch(urlBuscar);
+                    if(!response.ok)
+                        throw new Error("Ocurrió un error");
+                    const dataQuesos = await response.json();
+                    setQuesos(dataQuesos.data);
+                    setDataPagination(dataQuesos);
+                    setLoaded(true);
+                } else {
+                    const response = await fetch(urlQuesos);
+                    if(!response.ok)
+                        throw new Error("Ocurrió un error");
+                    const dataQuesos = await response.json();
+                    setQuesos(dataQuesos.data);
+                    setDataPagination(dataQuesos);
+                    setLoaded(true);
+                }
+            } catch(error) {
                 setLoaded(true);
             }
-                
+
         }
         showData(queso_a_buscar);
     }, [queso_a_buscar, number]);

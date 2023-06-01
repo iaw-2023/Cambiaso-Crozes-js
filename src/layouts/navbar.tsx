@@ -20,10 +20,14 @@ function NavbarEx() {
         const url = process.env.REACT_APP_MY_ENV + 'categorias';
     
         const showData = async() => {
-            const response = await fetch(url);
-            const dataCategorias = await response.json();
-            setCategoria(dataCategorias.data);
-            setTextoABuscar('all');
+            try {
+                const response = await fetch(url);
+                if(!response.ok)
+                    throw new Error("Ocurrió un error");
+                const dataCategorias = await response.json();
+                setCategoria(dataCategorias.data);
+                setTextoABuscar('all');
+            } catch(error) {}
         }
         showData();
     }, []);

@@ -18,12 +18,18 @@ const Quesos = () => {
         const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'quesos';
     
         const showData = async() => {
-            setLoaded(false);
-            const response = await fetch(url);
-            const dataQuesos = await response.json();
-            setQuesos(dataQuesos.data);
-            setDataPagination(dataQuesos);
-            setLoaded(true);
+            try {
+                setLoaded(false);
+                const response = await fetch(url);
+                if(!response.ok)
+                    throw new Error("Ocurrió un error");
+                const dataQuesos = await response.json();
+                setQuesos(dataQuesos.data);
+                setDataPagination(dataQuesos);
+                setLoaded(true);
+            } catch(error) { 
+                setLoaded(true);
+            }
         }
         showData();
     }, [number]);

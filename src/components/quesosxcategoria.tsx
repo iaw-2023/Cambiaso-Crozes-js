@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import Queso from "../models/queso";
@@ -11,6 +11,7 @@ import QuesoCard from "../layouts/cards/queso-card";
 function QuesosxCategoria() {
     const { tipo_de_queso, number } = useParams(); //Recupero el tipo de queso de la url
     const location = useLocation();
+    const navigate = useNavigate();
     const { id } = location.state ? location.state: ""; //Recupero el id del tipo de queso de los parámetros
 
     const[quesosxcategoria,setQuesosxCategoria] = useState([])
@@ -20,15 +21,18 @@ function QuesosxCategoria() {
     useEffect(() => {
         const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
         const showDataQuesosxCategoria = async(id: any, number: any) => {
-            if(id !== undefined) {
+            try {
                 setLoaded(false);
                 const response = await fetch(url);
+                if(!response.ok)
+                    throw new Error("Ocurrió un error");
                 const dataQuesosxCategoria = await response.json();
                 setDataPagination(dataQuesosxCategoria);
                 setQuesosxCategoria(dataQuesosxCategoria.data);
                 setLoaded(true);
-            } else {
-                setLoaded(true)
+            } catch(error) {
+                setLoaded(true);
+                navigate(`/`);
             }
         }
         showDataQuesosxCategoria(id, number);
@@ -41,27 +45,19 @@ function QuesosxCategoria() {
             
         	{ !isLoaded ? (
                 <Loading></Loading>
-            ): (
-                <>
-                    { id === undefined ? (
-                        <div>
-                            Error
-                        </div>
-                    ): (
-                        <Container className="cards-container">
-                            <Row xs={1} md={3} className="cards-container2">
-                                {quesosxcategoria.map((queso: Queso, idx) => 
-                                    <Col className="card-col" key={idx}>
-                                        <QuesoCard queso={queso}/>
-                                    </Col>
-                                )}
-                            </Row>
+            ): ( 
+                <Container className="cards-container">
+                    <Row xs={1} md={3} className="cards-container2">
+                        {quesosxcategoria.map((queso: Queso, idx) => 
+                            <Col className="card-col" key={idx}>
+                                <QuesoCard queso={queso}/>
+                            </Col>
+                        )}
+                    </Row>
 
-                            <CategoriesPagination last_page={dataPagination.last_page} current_page={dataPagination.current_page} path={dataPagination.path} url={'/quesos/categoria/' + tipo_de_queso} id_category={id}></CategoriesPagination>
+                    <CategoriesPagination last_page={dataPagination.last_page} current_page={dataPagination.current_page} path={dataPagination.path} url={'/quesos/categoria/' + tipo_de_queso} id_category={id}></CategoriesPagination>
 
-                        </Container>
-                    )}
-                </>
+                </Container>
             )}
         </Container>
     )

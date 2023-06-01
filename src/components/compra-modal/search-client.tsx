@@ -50,28 +50,35 @@ function SearchClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Searc
     const handleSubmitEmail = async() => {
         setLoaded(false);
         const url = process.env.REACT_APP_MY_ENV + 'clientes/buscar/' + email;
-        const response = await fetch(url);
-        const dataCliente = await response.json();
-        if (dataCliente.length > 0) {
-            // existe el cliente
-            setCliente(dataCliente[0]);
-            setPedido({
-                ...pedido,
-                cliente_id: dataCliente[0].id,
-                cliente_nombre: dataCliente[0].nombre,
-                cliente_apellido: dataCliente[0].apellido,
-                cliente_ciudad: dataCliente[0].ciudad,
-                cliente_domicilio: dataCliente[0].domicilio,
-            });
-        } else {
-            // no existe el cliente
-            setCliente({
-                ...cliente,
-                email: email
-            });
+        try {
+            const response = await fetch(url);
+            if(!response.ok)
+                throw new Error("Ocurrió un error");
+            const dataCliente = await response.json();
+            if (dataCliente.length > 0) {
+                // existe el cliente
+                setCliente(dataCliente[0]);
+                setPedido({
+                    ...pedido,
+                    cliente_id: dataCliente[0].id,
+                    cliente_nombre: dataCliente[0].nombre,
+                    cliente_apellido: dataCliente[0].apellido,
+                    cliente_ciudad: dataCliente[0].ciudad,
+                    cliente_domicilio: dataCliente[0].domicilio,
+                });
+            } else {
+                // no existe el cliente
+                setCliente({
+                    ...cliente,
+                    email: email
+                });
+            }
+            setLoaded(true);
+            setSeccion(2);
+        } catch(error) {
+            setLoaded(true);
+            setShow(false);
         }
-        setLoaded(true);
-        setSeccion(2);
     }
 
     return (
