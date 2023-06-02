@@ -21,16 +21,21 @@ function QuesosxCategoria() {
     useEffect(() => {
         const url = number !== undefined ? process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos?page=' + number : process.env.REACT_APP_MY_ENV + 'categorias/' + id + '/quesos';
         const showDataQuesosxCategoria = async(id: any, number: any) => {
-            try {
-                setLoaded(false);
-                const response = await fetch(url);
-                if(!response.ok)
-                    throw new Error("Ocurrió un error");
-                const dataQuesosxCategoria = await response.json();
-                setDataPagination(dataQuesosxCategoria);
-                setQuesosxCategoria(dataQuesosxCategoria.data);
-                setLoaded(true);
-            } catch(error) {
+            if(id !== undefined) {
+                try {
+                    setLoaded(false);
+                    const response = await fetch(url);
+                    if(!response.ok)
+                        throw new Error("Ocurrió un error");
+                    const dataQuesosxCategoria = await response.json();
+                    setDataPagination(dataQuesosxCategoria);
+                    setQuesosxCategoria(dataQuesosxCategoria.data);
+                    setLoaded(true);
+                } catch(error) {
+                    navigate(`/`);
+                    setLoaded(true);
+                }
+            } else {
                 setLoaded(true);
                 navigate(`/`);
             }

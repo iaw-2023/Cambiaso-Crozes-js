@@ -15,11 +15,10 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
     const {cliente, setCliente} = clienteHook;
     const {show, setShow} = showHook;
 
-    const [errorMessageNombre, setErrorMessageNombre] = useState(' ');
-    const [errorMessageApellido, setErrorMessageApellido] = useState(' ');
-    const [errorMessageDomicilio, setErrorMessageDomicilio] = useState(' ');
-    const [errorMessageCiudad, setErrorMessageCiudad] = useState(' ');
-    const [validated, setValidated] = useState(false);
+    const [errorMessageNombre, setErrorMessageNombre] = useState("");
+    const [errorMessageApellido, setErrorMessageApellido] = useState("");
+    const [errorMessageDomicilio, setErrorMessageDomicilio] = useState("");
+    const [errorMessageCiudad, setErrorMessageCiudad] = useState("");
 
     const handleSubmitCliente = (event:any) => {
         const form = event.currentTarget;
@@ -28,20 +27,24 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
           event.stopPropagation();
         }
 
-        (cliente.nombre === "") ? setErrorMessageNombre("El nombre no puede ser vacío."): setErrorMessageNombre("");
-        (cliente.apellido === "") ? setErrorMessageApellido("El apellido no puede ser vacío."): setErrorMessageApellido("");
-        (cliente.ciudad === "") ? setErrorMessageCiudad("La ciudad no puede ser vacía."): setErrorMessageCiudad("");
-        (cliente.domicilio === "") ? setErrorMessageDomicilio("El domicilio no puede ser vacío."): setErrorMessageDomicilio("");
-    
-        setValidated(true);
+        var patternStrings = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/;
+        var patternDomicilio = /^[A-Za-záéíóúÁÉÍÓÚñÑ0-9\s]+$/; 
 
-        if(cliente.nombre.trim() !== '' && cliente.apellido.trim() !== '' && cliente.ciudad.trim() !== '' && cliente.domicilio.trim() !== ''){
+        (cliente.nombre === "" || !patternStrings.test(cliente.nombre)) ? setErrorMessageNombre("El nombre no tiene un formato válido."): setErrorMessageNombre("");
+        (cliente.apellido === "" || !patternStrings.test(cliente.apellido)) ? setErrorMessageApellido("El apellido no tiene un formato válido."): setErrorMessageApellido("");
+        (cliente.ciudad === "" || !patternStrings.test(cliente.ciudad)) ? setErrorMessageCiudad("La ciudad no tiene un formato válido."): setErrorMessageCiudad("");
+        (cliente.domicilio === "" || !patternDomicilio.test(cliente.domicilio)) ? setErrorMessageDomicilio("El domicilio no tiene un formato válido."): setErrorMessageDomicilio("");
+
+        if((cliente.nombre.trim() !== '' && patternStrings.test(cliente.nombre)) && 
+            (cliente.apellido.trim() !== '' && patternStrings.test(cliente.apellido)) && 
+                (cliente.ciudad.trim() !== '' && patternStrings.test(cliente.ciudad)) && 
+                    (cliente.domicilio.trim() !== '' && patternDomicilio.test(cliente.domicilio))){
             setSeccion(3);
         }
     }
 
     return (
-        <Form noValidate validated={validated} >
+        <Form>
             <Form.Group>
                 <FloatingLabel label="Email" className="mb-3">
                 <Form.Control
@@ -60,6 +63,7 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
                         placeholder="Ingrese su nombre"
                         value={cliente.nombre}
                         onChange={(e) => {setCliente({...cliente, nombre: e.target.value}); setPedido({...pedido, cliente_nombre: e.target.value});}}
+                        isInvalid={errorMessageNombre !== ""}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -76,6 +80,7 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
                         placeholder="Ingrese su apellido"
                         value={cliente.apellido}
                         onChange={(e) => {setCliente({...cliente, apellido: e.target.value}); setPedido({...pedido, cliente_apellido: e.target.value});}}
+                        isInvalid={errorMessageApellido !== ""}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -92,6 +97,7 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
                         placeholder="Ingrese su ciudad"
                         value={cliente.ciudad}
                         onChange={(e) => { setCliente({...cliente, ciudad: e.target.value}); setPedido({...pedido, cliente_ciudad: e.target.value});}}
+                        isInvalid={errorMessageCiudad !== ""}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -108,6 +114,7 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
                         placeholder="Ingrese su domicilio"
                         value={cliente.domicilio}
                         onChange={(e) => {setCliente({...cliente, domicilio: e.target.value}); setPedido({...pedido, cliente_domicilio: e.target.value});}}
+                        isInvalid={errorMessageDomicilio !== ""}
                         required
                     />
                     <Form.Control.Feedback type="invalid">
