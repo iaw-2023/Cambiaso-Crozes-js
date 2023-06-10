@@ -1,5 +1,14 @@
 .App {
   text-align: center;
+  font-family: "Josefin Slab"; 
+  font-style: normal; 
+  font-variant: normal;
+  font-weight: bold;
+  font-size: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
 }
 
 .App-logo {
@@ -36,3 +45,306 @@
     transform: rotate(360deg);
   }
 }
+
+/* NavBar */
+
+.navBg {
+  background-color: #F7D65A;
+}
+
+.buscar-boton {
+  --bs-btn-padding-y: 0.6rem !important;
+}
+
+section {
+  color: white;
+  background-color: black;
+}
+
+/* Footer */
+
+.footer-content {
+  display: inline-flex;
+}
+
+.page-footer {
+  background-color: #F7D65A;
+  text-align: center;
+  margin-top: auto;
+  padding: 8px;
+}
+
+/* Carrito */
+
+.carrito-logo {
+  position: relative;
+}
+
+.carrito-logo-numero {
+  color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  transform: translateX(10px);
+}
+
+.carrito-imagen-queso {
+  width: 125px;
+  height: 75px; 
+  object-fit: cover;
+}
+
+.carrito-cant-queso {
+  font-size: .65rem; 
+  color:rgb(150, 150, 150);
+}
+
+.carrito-precio-queso {
+  font-size: .75rem;
+  color:rgb(150, 150, 150);
+}
+
+.carrito-item-detalles {
+  margin-right: 10px;
+}
+
+.carrito-item-acciones {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.carrito-item-precio {
+  margin-right: 10px;
+}
+
+.carrito-item-cantidad {
+  margin: 4px;
+}
+
+/* Separadores */
+
+.separador {
+  margin-top: 0;
+  border: 0;
+  height: 3px;
+  background-image: linear-gradient(to right, rgba(0,0,0), #F7D65A, rgba(0,0,0));
+  opacity: 1;
+}
+
+.separador2 {
+  margin-top: 0;
+  border: 0;
+  height: 2px;
+  background-image: linear-gradient(to right, white, #F7D65A, white);
+  opacity: 1;
+}
+
+/* Carousel Home */
+
+Carousel {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Títutlos */
+
+.titulo {
+  color: #F7D65A;
+  font-size: 7vmax;
+  margin: 0;
+}
+
+.titulo2 {
+  color: #F7D65A;
+  font-size: 3vmax;
+  margin: 0;
+}
+
+.titulo3 {
+  color: #F7D65A;
+  font-size: 1.75vmax;
+  margin: 0;
+  text-align: right;
+  padding-top: 10px;
+}
+
+.titulo4 {
+  font-size: 1.75vmax;
+  margin: 0;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.subtitulo {
+  color: #F7D65A;
+  font-size: 2vmax;
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-column-gap: 1.2rem;
+  align-items: center;
+}
+
+.subtitulo::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background-image: linear-gradient(to right, rgba(0,0,0), #F7D65A, #F7D65A);
+}
+
+.subtitulo::after {
+  content: "";
+  display: block;
+  height: 3px;
+  background-image: linear-gradient(to right, #F7D65A, #F7D65A, rgba(0,0,0));
+}
+
+.no-encontrado{
+  color: #F7D65A;
+  font-size: 2.5vw;
+  display: grid;
+  grid-column-gap: 1.2rem;
+  align-items: center;
+  margin-top: 15px;
+}
+
+/* Quesos Individuales */
+
+.descripcion-queso {
+  color: #F7D65A;
+  font-size: 2vmax;
+  margin-top: 15px;
+  line-height: normal;
+  text-align: left;
+}
+
+.datos-queso {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.foto-queso {
+  max-width: 100%;
+  max-height: 80vh;
+  display: block;
+}
+
+.comprar-queso {
+  padding-top: 15px;
+  text-transform: capitalize;
+  display: contents;
+}
+
+.seleccionar-queso {
+  color: #F7D65A !important;
+  background-color: black !important;
+  border-color: #F7D65A !important;
+  width: 80% !important;
+}
+
+.seleccionar-queso-label {
+  width: 100% !important;
+}
+
+.boton-comprar {
+  min-height: -webkit-fill-available !important;
+}
+
+.floating-alert {
+  top: 20px;
+  z-index: 9999;
+}
+
+/* Cards */
+
+.cards-container{
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.cards-container2{
+  display: flex;
+  justify-content: center;
+}
+
+.custom-card {
+  width: 18rem;
+  margin-bottom:20px;
+  color: #F7D65A;
+  background: linear-gradient(45deg, #F7D65A 100%, #F7D65A 100%);
+}
+
+.quesos-card {
+  width: 25rem;
+}
+
+.custom-card-body {
+  background-color: black;
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+
+.card-col {
+  display: inline-flex;
+  justify-content: center;
+}
+
+/* Paginación */
+
+.pagination-cheese {
+  display: flex !important;
+  display: inline-flex !important;
+}
+
+.active>.page-link, .page-link.active{
+  background-color: #F7D65A !important;
+  border-color: #F7D65A !important;
+  color: black !important;
+}
+
+.page-link{
+  color: black !important;
+}
+
+/* Modal Pedido */
+
+.div-primer-boton {
+  display: flex;
+  justify-content: right;
+}
+
+.div-botones-modal {
+  display: flex;
+  justify-content: space-between;
+}
+
+.boton-int-modal {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.datos-confirmar-pedido {
+  font-size: 1vmax; 
+  color:rgb(89, 89, 89);
+}
+
+.boton-modal {
+  margin: 20px;
+}
+
+.container-info-pedido {
+  margin-bottom: 10px;
+}
+
+.pedido-cant-queso {
+  font-size: .65rem; 
+  color:rgb(89, 89, 89);
+}
+
+.pedido-precio-queso {
+  font-size: .75rem;
+  color:rgb(89, 89, 89);
+}
+

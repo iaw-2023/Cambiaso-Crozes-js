@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+![alt text](https://github.com/iaw-2023/Cambiaso-Crozes-laravel/blob/primera-entrega/public/logo.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">Una página web orientada a la venta de lo que todos amamos: el queso.</h1>
 
-## Available Scripts
+<b><h2>Proyecto Javascript - React/Vue</h2></b>
 
-In the project directory, you can run:
+<b><h3>LINK</h3></b>
+🧀 [Deploy en Vercel](https://cambiaso-crozes-js.vercel.app/)
 
-### `npm start`
+<b><h3>Aclaraciones</h3></b>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+🧀 Elegimos trabajar con Typescript para evitar errores de tipos.
 
-### `npm test`
+🧀 Al no tener usuarios y por lo tanto, tampoco login, entendemos que no hay seguridad al realizar el pedido. Este proceso tendría más sentido si tuviésemos usuarios, pero al haberlo modelado de esta forma decidimos que de todas maneras se pueda realizar el pedido solamente ingresado el mail de un cliente, y que también se pueda crear uno nuevo o editar sus campos si ya existe un cliente con el mail.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🧀 La página no está pensada para que se puedan acceder a los quesos individuales o a las categorías de estos a través de la url, ya que se manejan con estados para evitar más llamadas a la API, por lo tanto, decidimos que se redirija al Home cuando esto suceda.
 
-### `npm run build`
+🧀 El carrito se almacena en el localStorage del navegador para que si el cliente carga nuevamente la página o lo vuelve a abrir en otro momento se mantengan los quesos agregados. Esto genera que si en la base de datos se elimina o se modifica alguno de los campos de algunos de los quesos que contiene, no se vea reflejado en el carrito.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+🧀 Al no manejar stock de los quesos, se pueden agregar cantidades infinitas de gramos por queso.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🧀 La búsqueda no se puede realizar a partir de un enter, sólo a través del botón de búsqueda. En caso de que se haga la búsqueda sin escribir nada, poniendo sólo espacios o ingresando caracteres que no sean letras, se muestran todos los quesos como resultado.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+🧀 El pedido puede fallar por un error interno del servidor, mostrando al cliente el mensaje: "No se pudo realizar el pedido, inténtalo más tarde". O también puede fallar porque en el carrito se encuentra algún queso que fue eliminado de la base de datos antes de que se confirme el pedido, y se muestra el siguiente mensaje al cliente: "No tenemos alguno de los quesos que solicitaste, debemos reiniciar tu carrito :(". En ambos casos, para cerrar el modal, la única opción será mediante un botón que borra todos los quesos del carrito y redirije al Home.
 
-### `npm run eject`
+🧀 Para facilitar y disminuir la cantidad de llamadas a la API agregamos nuevos GET, PUT y POST, que se pueden encontrar en [Swagger-UI](https://cambiaso-crozes-laravel-iota.vercel.app/rest/documentation).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<b><h3>Créditos</h3></b>
+🧀 [React](https://es.react.dev/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🧀 [React-Bootstrap](https://react-bootstrap.github.io/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+🧀 [Tailwind](https://tailwindcss.com/)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

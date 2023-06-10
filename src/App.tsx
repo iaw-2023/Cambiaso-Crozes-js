@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Quesos from './components/quesos';
+import Home from './components/home';
+import Carrito from './components/carrito';
+import QuesosxCategoria from './components/quesosxcategoria';
+import NavbarEx from './layouts/navbar';
+import Footer from './layouts/footer';
+import Buscar from './components/buscar';
+import { ShoppingCartProvider } from './context/carrito-contexto';
+import QuesoIndividual from './components/queso';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+ return (
+    <ShoppingCartProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={ <NavbarEx /> }>
+              <Route index element={ <Home /> }/>
+              <Route path='quesos' element={ <Quesos /> }/>
+              <Route path='quesos/page/:number' element={ <Quesos /> }/>
+
+              <Route path='quesos/:nombre' element={<QuesoIndividual/>}/>
+
+              <Route path='carrito' element={ <Carrito /> }/>
+
+              <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
+              <Route path='quesos/categoria/:tipo_de_queso/page/:number' element={ <QuesosxCategoria /> } />
+
+              <Route path='quesos/buscar/:queso_a_buscar' element={<Buscar/>}/>
+              <Route path='quesos/buscar/:queso_a_buscar/page/:number' element={<Buscar/>}/>
+
+              [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
+              <Route path='*' element={ <Navigate replace to="/" />}/> 
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <Footer></Footer>
+      </div>
+    </ShoppingCartProvider>
+  );  
 }
 
 export default App;
