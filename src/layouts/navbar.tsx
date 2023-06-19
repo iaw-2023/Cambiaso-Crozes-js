@@ -4,17 +4,64 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
 import { BsCart4,BsSearchHeart } from "react-icons/bs";
 import { Button } from 'react-bootstrap';
 import { useShoppingCart } from '../context/carrito-contexto';
+import { useAuth0 } from '@auth0/auth0-react';
+import Loading from './loading';
 
-function NavbarEx() {
+function NavbarEx(props:any) {
+
+    let loggedUser = props.loggedUser;
+
+    const navigate = useNavigate();
+
+    const { isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
+
+    const [loading, isLoading] = useState(false);
 
     const [categorias, setCategoria] = useState([]);
     const { cartQuantity } = useShoppingCart();
+
+    const getUserFromAPI = async () => {
+       // isLoading(true);
+        const token = await getAccessTokenSilently();
+        let response;
+        try{
+            // response = await fetch(process.env.REACT_APP_API_URL+"/user_logged", {
+            //     headers: {
+            //         authorization: `Bearer ${token}`
+            //     }
+            // });
+        } catch(error){
+            console.log(error);
+            return;
+        }
+
+        // if(response.status === 200){
+        //     const dataUser = await response.json();
+        //     props.updateUser(dataUser);
+
+        //     loggedUser = dataUser;
+        //     isLoading(false);
+        // } else if(response.status === 404){
+        //     navigate('/users/register');
+        // } else{
+        //     const error = await response.json();
+        //     console.log(error);
+        // }
+    }
+
+    // useEffect( () => {
+    //     if(isAuthenticated){
+    //         getUserFromAPI();
+    //     } else{
+    //         props.updateUser(null);
+    //     }
+    // }, [isAuthenticated]);
    
     useEffect(() => {
         const url = process.env.REACT_APP_MY_ENV + 'categorias';
@@ -73,6 +120,27 @@ function NavbarEx() {
                             </NavDropdown>
                         </Nav>
                         <Nav className='carrito-nav'>
+                            {isAuthenticated ? (
+                                <>
+                                    {loading ? (
+                                        <Loading></Loading>
+                                    ): (
+                                        <>
+                                            <b><Nav.Link as={Link} to="/perfil">Perfil</Nav.Link></b>
+                                            <b><Nav.Link onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Salir</Nav.Link></b>
+                                        </>
+                                    )}
+                                </>
+                                
+                            ): (
+                                <>
+                                    {loading ? (
+                                        <Loading></Loading>
+                                    ): (
+                                        <b><Nav.Link onClick={ () => loginWithRedirect() }>Ingresar</Nav.Link></b>
+                                    )}
+                                </>
+                            )}
                             <Nav.Link className='carrito-logo' as={Link} to="/carrito">
                                 <Button variant="outline-dark buscar-boton">
                                     <BsCart4/>
