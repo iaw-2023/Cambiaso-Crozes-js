@@ -38,9 +38,8 @@ function App() {
               <Route path='quesos/buscar/:queso_a_buscar' element={<Buscar/>}/>
               <Route path='quesos/buscar/:queso_a_buscar/page/:number' element={<Buscar/>}/>
 
-              <Route path='perfil' element={ <Profile loggedUser={loggedUser}/> }/>
+              <Route path='perfil' element={ <Profile updateUser={setLoggedUser} loggedUser={loggedUser}/> }/>
               <Route path='perfil/crear' element={ <CreateProfile/> }/>
-              <Route path='perfil/editar' element={ <EditProfile updateUser={setLoggedUser} loggedUser={loggedUser}/> }/>
 
               [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
               <Route path='*' element={ <Navigate replace to="/" />}/> 

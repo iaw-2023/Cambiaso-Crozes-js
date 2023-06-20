@@ -1,5 +1,5 @@
 type Cliente = {
-    id:bigint;
+    id:number;
     nombre:string;
     apellido:string;
     domicilio:string;

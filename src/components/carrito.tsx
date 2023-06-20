@@ -37,15 +37,15 @@ function Carrito() {
                                 </div>
                                 
                                 <div className="carrito-item-acciones me-auto">
-                                <Button variant="outline-warning" onClick={() => decreaseCartQuantity(item.id, 250)}>
-                                    -250g
-                                </Button>
-                                <div className="carrito-item-cantidad">
-                                    <span>x{item.gramosQueso}g</span>
-                                </div>
-                                <Button variant="outline-warning" onClick={() => increaseCartQuantity(item.id, 250, item.queso)}>
-                                    +250g
-                                </Button>
+                                    <Button variant="outline-warning" onClick={() => decreaseCartQuantity(item.id, 250)}>
+                                        -250g
+                                    </Button>
+                                    <div className="carrito-item-cantidad">
+                                        <span>x{item.gramosQueso}g</span>
+                                    </div>
+                                    <Button variant="outline-warning" onClick={() => increaseCartQuantity(item.id, 250, item.queso)}>
+                                        +250g
+                                    </Button>
                                 </div>
 
                                 <div className="carrito-item-precio"> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)}</div>

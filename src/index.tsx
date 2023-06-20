@@ -9,12 +9,17 @@ import { Auth0Provider } from '@auth0/auth0-react'
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID;
+
 root.render(
   <React.StrictMode>
-    <Auth0Provider domain='dev-jm8icz45vae2lwqi.us.auth0.com' 
-        clientId='upGsYXloPbHxvJI3aEKvA7yWGg433491' 
+    <Auth0Provider 
+        domain={domain !== undefined ? domain : ""}
+        clientId={client_id !== undefined ? client_id : ""}
         authorizationParams={{
-        redirect_uri: window.location.origin
+          redirect_uri: window.location.origin,
+          audience:"saycheese-api",
         }}
         >
       <App />

@@ -27,41 +27,47 @@ function NavbarEx(props:any) {
     const { cartQuantity } = useShoppingCart();
 
     const getUserFromAPI = async () => {
-       // isLoading(true);
+        isLoading(true);
         const token = await getAccessTokenSilently();
         let response;
-        try{
-            // response = await fetch(process.env.REACT_APP_API_URL+"/user_logged", {
-            //     headers: {
-            //         authorization: `Bearer ${token}`
-            //     }
-            // });
-        } catch(error){
-            console.log(error);
+        try {
+            response = await fetch(process.env.REACT_APP_MY_ENV+"clienteLoggeado", {
+                method: "GET",
+                headers: {
+                    "X-CSRF-TOKEN": "",
+                    accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "content-type": "application/json",
+                },
+            });
+        } catch(error) {
+            isLoading(false);
             return;
         }
+        
+        if(response.status === 200){
+            const dataUser = await response.json();
+            props.updateUser(dataUser);
 
-        // if(response.status === 200){
-        //     const dataUser = await response.json();
-        //     props.updateUser(dataUser);
-
-        //     loggedUser = dataUser;
-        //     isLoading(false);
-        // } else if(response.status === 404){
-        //     navigate('/users/register');
-        // } else{
-        //     const error = await response.json();
-        //     console.log(error);
-        // }
+            loggedUser = dataUser;
+            isLoading(false);
+        } else if(response.status === 404){
+            navigate('/perfil/crear');
+            isLoading(false);
+        } else{
+            const error = await response.json();
+            isLoading(false);
+        }
+        
     }
 
-    // useEffect( () => {
-    //     if(isAuthenticated){
-    //         getUserFromAPI();
-    //     } else{
-    //         props.updateUser(null);
-    //     }
-    // }, [isAuthenticated]);
+    useEffect( () => {
+        if(isAuthenticated){
+            getUserFromAPI();
+        } else{
+            props.updateUser(null);
+        }
+    }, [isAuthenticated]);
    
     useEffect(() => {
         const url = process.env.REACT_APP_MY_ENV + 'categorias';

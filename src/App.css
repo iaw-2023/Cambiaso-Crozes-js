@@ -348,3 +348,20 @@ Carousel {
   color:rgb(89, 89, 89);
 }
 
+/* Perfil */
+.container-perfil {
+  padding: 15px;
+}
+
+.form-perfil {
+  padding: inherit;
+}
+
+.historial-perfil {
+  padding: inherit;
+  margin-top: 15px;
+}
+
+.row-perfil {
+  max-width: 100%;
+}

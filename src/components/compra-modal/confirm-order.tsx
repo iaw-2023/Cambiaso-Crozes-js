@@ -116,9 +116,6 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: Confi
             </Stack>
             </Container>
             <div className="div-botones-modal">
-                <Button className="boton-int-modal" variant="outline-dark" onClick={() => {setSeccion(2)}}>
-                    Anterior
-                </Button>
                 <Button className="boton-int-modal" variant="outline-danger" onClick={() => setShow(false)}>
                     Cerrar
                 </Button>

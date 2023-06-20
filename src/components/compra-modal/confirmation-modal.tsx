@@ -49,22 +49,11 @@ function ConfirmarPedido() {
             </Modal.Header>
             <Modal.Body>
                 {seccion === 1 && (
-                    <SearchClient 
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
-                    />
-                    
-                )}
-                {seccion === 2 && (
-                    <CreateClient
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
-                    />
-                )}
-                {seccion === 3 && (
                     <ConfirmOrder
                         pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
                     />
                 )}
-                {seccion === 4 && (
+                {seccion === 2 && (
                     <EndOrder
                         pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
                     />
