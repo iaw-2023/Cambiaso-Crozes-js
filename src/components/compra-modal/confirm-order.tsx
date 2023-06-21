@@ -120,7 +120,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: Confir
                     Cerrar
                 </Button>
                 <Button className="boton-int-modal" variant="outline-warning" type="submit" onClick={handleSubmitPedido}>
-                    Confirmar Compra
+                    Ir a pagar
                 </Button>
             </div>
            

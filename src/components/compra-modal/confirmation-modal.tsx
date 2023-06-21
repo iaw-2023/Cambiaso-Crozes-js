@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import ConfirmOrder from './confirm-order';
 import EndOrder from './end-order';
+import PayOrder from './pay-order';
 
 function ConfirmarPedido(props:any) {
     const [show, setShow] = useState(false);
@@ -39,6 +40,11 @@ function ConfirmarPedido(props:any) {
                     />
                 )}
                 {seccion === 2 && (
+                    <PayOrder
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }} loggedUser={props.loggedUser}
+                    />
+                )}
+                {seccion === 3 && (
                     <EndOrder
                         pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }}
                     />
