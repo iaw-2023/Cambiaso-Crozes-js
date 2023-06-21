@@ -4,22 +4,21 @@ import Loading from "../../layouts/loading";
 import { useShoppingCart } from "../../context/carrito-contexto";
 import { Link } from "react-router-dom";
 import CartItem from "../../models/carritoItem";
+import { useAuth0 } from "@auth0/auth0-react";
+import Cliente from "../../models/cliente";
 
 type EndOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
-    clienteHook: { cliente: any; setCliente: (cliente: any) => void};
-    showHook: { show: boolean; setShow: (show: boolean) => void};
 };
 
-function EndOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: EndOrderProps) {
+function EndOrder ({ pedidoHook, seccionHook }: EndOrderProps) {
 
+    const { getAccessTokenSilently } = useAuth0();
     const carrito = useShoppingCart();
 
     const {pedido, setPedido} = pedidoHook;
-    const {cliente, setCliente} = clienteHook;
-    const {seccion, setSeccion} = seccionHook;
-    const {show, setShow} = showHook;
+    const { seccion, setSeccion} = seccionHook;
 
     const [isLoaded, setLoaded] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -40,13 +39,16 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: EndOrderP
         })
     }, [carrito]);
 
-    function crearPedido(){
-        const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos/' + cliente.email;
-        fetch(urlPedido, {
+    async function crearPedido(){
+        console.log(pedido)
+        const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos';
+        const token = await getAccessTokenSilently();
+        await fetch(urlPedido, {
             method: "POST",
             headers: {
                 "X-CSRF-TOKEN": "",
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
                 accept: "application/json",
             },
             body: JSON.stringify(pedido)
@@ -58,7 +60,6 @@ function EndOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: EndOrderP
                     throw new Error("No se pudo realizar el pedido, inténtalo más tarde");   
             }
             else {
-                setCliente({ id: "", nombre: "", apellido: "", ciudad: "", domicilio: "", email: "" });
                 setLoaded(true);
             }
         }).catch((error: Error) => {

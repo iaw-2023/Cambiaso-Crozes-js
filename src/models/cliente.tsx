@@ -4,6 +4,6 @@ type Cliente = {
     apellido:string;
     domicilio:string;
     ciudad:string;
-    email:string;    
+    email?:string;    
 } 
 export default Cliente;

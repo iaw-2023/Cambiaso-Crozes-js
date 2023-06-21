@@ -30,7 +30,7 @@ function App() {
 
               <Route path='quesos/:nombre' element={<QuesoIndividual/>}/>
 
-              <Route path='carrito' element={ <Carrito /> }/>
+              <Route path='carrito' element={ <Carrito loggedUser={loggedUser} /> }/>
 
               <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
               <Route path='quesos/categoria/:tipo_de_queso/page/:number' element={ <QuesosxCategoria /> } />
@@ -39,7 +39,7 @@ function App() {
               <Route path='quesos/buscar/:queso_a_buscar/page/:number' element={<Buscar/>}/>
 
               <Route path='perfil' element={ <Profile updateUser={setLoggedUser} loggedUser={loggedUser}/> }/>
-              <Route path='perfil/crear' element={ <CreateProfile/> }/>
+              <Route path='perfil/crear' element={ <CreateProfile updateUser={setLoggedUser} loggedUser={loggedUser}/> }/>
 
               [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
               <Route path='*' element={ <Navigate replace to="/" />}/> 

@@ -6,10 +6,10 @@ import Loading from '../../layouts/loading';
 
 type EditProps = {
   clienteHook: { cliente: Cliente; setCliente: (client: Cliente) => void};
+  updateUser: any;
+  loggedUser: Cliente;
 };
-const EditProfile = ({clienteHook}: EditProps, props:any) => {
-
-  const loggedUser = props.loggedUser;
+const EditProfile = ({clienteHook, updateUser, loggedUser}: EditProps) => {
 
   const { getAccessTokenSilently } = useAuth0();
   
@@ -61,6 +61,7 @@ const EditProfile = ({clienteHook}: EditProps, props:any) => {
         body: JSON.stringify(cliente)
     }).then(async (response) => {
         if(response.status === 200){
+          updateUser(cliente);
           // Sus datos se actualizaron correctamente!
           setShowAlert(true);
           setTimeout(() => {

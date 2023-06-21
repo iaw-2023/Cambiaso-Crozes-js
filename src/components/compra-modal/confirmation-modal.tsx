@@ -1,32 +1,17 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import CreateClient from './create-client';
-import SearchClient from './search-client';
 import ConfirmOrder from './confirm-order';
 import EndOrder from './end-order';
 
-function ConfirmarPedido() {
+function ConfirmarPedido(props:any) {
     const [show, setShow] = useState(false);
 
     const [pedido, setPedido] = useState({
         fecha: "",
         precio_total: 0,
-        cliente_id: 0,
-        cliente_nombre: "",
-        cliente_apellido: "",
-        cliente_ciudad: "",
-        cliente_domicilio: "",
+        cliente_id: props.loggedUser.id,
         quesos: {}
-    });
-
-    const [cliente, setCliente] = useState({
-        id: "",
-        nombre: "",
-        apellido: "",
-        ciudad: "",
-        domicilio: "",
-        email: ""
     });
 
     const handleClose = () => {
@@ -50,12 +35,12 @@ function ConfirmarPedido() {
             <Modal.Body>
                 {seccion === 1 && (
                     <ConfirmOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }} loggedUser={props.loggedUser}
                     />
                 )}
                 {seccion === 2 && (
                     <EndOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }}
                     />
                 )}
             </Modal.Body>

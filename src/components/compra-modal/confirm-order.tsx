@@ -2,24 +2,24 @@ import { Button, Container, Stack } from "react-bootstrap";
 import CartItem from "../../models/carritoItem";
 import { useShoppingCart } from "../../context/carrito-contexto";
 import { useEffect } from "react";
+import Cliente from "../../models/cliente";
 
 type ConfirmOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
-    clienteHook: { cliente: any; setCliente: (cliente: any) => void};
     showHook: { show: boolean; setShow: (show: boolean) => void};
+    loggedUser: Cliente
 };
 
-function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: ConfirmOrderProps) {
+function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: ConfirmOrderProps) {
 
     const {setSeccion} = seccionHook;
-    const {cliente} = clienteHook;
     const {show, setShow} = showHook;
 
     const carrito = useShoppingCart();
 
     const handleSubmitPedido = () => {
-        setSeccion(4);
+        setSeccion(2);
     };
 
     useEffect(() => {
@@ -50,7 +50,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: Confi
                         <p>
                             Nombre:{" "}
                             <span className="datos-confirmar-pedido">
-                                {cliente.nombre}
+                                {loggedUser.nombre}
                             </span>
                         </p>
                     </div>
@@ -58,7 +58,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: Confi
                         <p>
                             Apellido:{" "}
                             <span className="datos-confirmar-pedido">
-                                {cliente.apellido}
+                                {loggedUser.apellido}
                             </span>
                         </p>
                     </div>
@@ -66,7 +66,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: Confi
                         <p>
                             Ciudad:{" "}
                             <span className="datos-confirmar-pedido">
-                                {cliente.ciudad}
+                                {loggedUser.ciudad}
                             </span>
                         </p>
                     </div>
@@ -74,7 +74,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, clienteHook, showHook }: Confi
                         <p>
                             Domicilio:{" "}
                             <span className="datos-confirmar-pedido">
-                                {cliente.domicilio}
+                                {loggedUser.domicilio}
                             </span>
                         </p>
                     </div>

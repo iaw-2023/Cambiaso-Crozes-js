@@ -3,8 +3,12 @@ import { useShoppingCart } from "../context/carrito-contexto";
 import CartItem from '../models/carritoItem';
 import { BsFillTrashFill } from "react-icons/bs";
 import ConfirmarPedido from './compra-modal/confirmation-modal';
+import { useAuth0 } from "@auth0/auth0-react";
 
-function Carrito() {
+function Carrito(props:any) {
+
+    const {isAuthenticated} = useAuth0();
+
     const {
         getCartItems,
         increaseCartQuantity,
@@ -67,7 +71,13 @@ function Carrito() {
                         </div>
                     </Stack>
 
-                    <ConfirmarPedido/>
+                    {isAuthenticated && props.loggedUser ? 
+                    <ConfirmarPedido loggedUser={props.loggedUser} />
+                    :
+                    (
+                        <p className="text-base">Debe registrarse y completar sus datos para poder comprar sus quesos!</p>
+                    )
+                    }
                     
                 </Container>
             ) : (
