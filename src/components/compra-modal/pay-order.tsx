@@ -96,7 +96,7 @@ function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderPr
             ) : (
                 <>
                 <Container>
-                    <CardPayment
+                    <CardPayment 
                         initialization={settings.initialization}
                         onSubmit={settings.callbacks.onSubmit}
                         onReady={settings.callbacks.onReady}

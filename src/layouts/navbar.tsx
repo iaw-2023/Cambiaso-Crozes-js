@@ -176,7 +176,7 @@ function NavbarEx(props:any) {
                 </Container>
             </Navbar>
 
-            <section>
+            <section className='section-fondo'>
                 <Outlet></Outlet>
             </section>
             

@@ -56,7 +56,7 @@
   --bs-btn-padding-y: 0.6rem !important;
 }
 
-section {
+.section-fondo {
   color: white;
   background-color: black;
 }
@@ -364,4 +364,10 @@ Carousel {
 
 .row-perfil {
   max-width: 100%;
+}
+
+/*Pago*/
+
+.pay-modal{
+  background-color: white;
 }
