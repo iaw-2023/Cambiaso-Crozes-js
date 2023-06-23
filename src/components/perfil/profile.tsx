@@ -4,7 +4,6 @@ import { Container, Row } from 'react-bootstrap';
 import Loading from '../../layouts/loading';
 import Cliente from '../../models/cliente';
 import { Navigate, useParams } from "react-router-dom";
-import DataPagination from "../../models/dataPagination";
 import HistorialProfile from './historialprofile';
 import EditProfile from './editprofile';
 

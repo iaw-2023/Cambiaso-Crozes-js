@@ -4,6 +4,8 @@ import Cliente from "../../models/cliente";
 import { IBrickError } from "@mercadopago/sdk-react/bricks/util/types/common";
 import { useState } from 'react';
 import Loading from "../../layouts/loading";
+import { useAuth0 } from "@auth0/auth0-react";
+import { setOriginalNode } from "typescript";
 
 type PayOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
@@ -15,9 +17,12 @@ type PayOrderProps = {
 function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderProps) {
     const {pedido, setPedido} = pedidoHook;
     const {seccion, setSeccion} = seccionHook;
-    const [loading, isLoading] = useState(false);
+    const [loading, isLoading] = useState(true);
+    const [show, setShow] = useState(false);
 
-    initMercadoPago("TEST-fa2d9421-c75d-4643-9fc0-2edc22c0a2bd", {
+    const { getAccessTokenSilently } = useAuth0();
+
+    initMercadoPago(process.env.REACT_APP_MP_ACCESS_TOKEN !== undefined?process.env.REACT_APP_MP_ACCESS_TOKEN:"", {
         locale: "es-AR",
     });
 
@@ -41,6 +46,9 @@ function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderPr
             }
         },
         customization: {
+            paymentMethods: {
+                maxInstallments: 1,
+            },
             visual: {
                 style: {
                     theme: 'bootstrap',
@@ -54,29 +62,34 @@ function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderPr
     }
 
     const proccessPayment = async (cardFormData:any) => {
-        return new Promise(() => {
-            fetch("/process_payment", {
+        const token = await getAccessTokenSilently();
+        const url = process.env.REACT_APP_MY_ENV + 'pedidos/pago';
+        return new Promise<void>(() => {
+            fetch(url, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "content-type": "application/json",
                 },
                 body: JSON.stringify(cardFormData),
         })
         .then(response => {
+            if(!response.ok) throw new Error("No se ha podido realizar el pago");
             return response.json();
         })
-        .then(result => {
-            if(!result.hasOwnProperty("error_message")) {
-                setSeccion(3);
-            } else {
-                alert(JSON.stringify({
-                    status: result.status,
-                    message: result.error_message
-                }))
+        .then(data => {
+            if (data.status !== undefined && data.status === "approved") {
+                setPedido({ ...pedido, id_pago: "#" + data.id });
             }
+            setSeccion(3);
+        })
+        .then(result => {
+            // resolve();
         })
         .catch(error => {
-            alert("Unexpected error\n"+JSON.stringify(error));
+            setSeccion(3);
+            // reject();
         });
         })
     }
@@ -86,31 +99,32 @@ function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderPr
     };
 
     const onReady = async () => {
-        //Se tiene que renderizar el componente
+        isLoading(false);
+        setShow(true);
     };
 
     return (
         <Container>
-            {loading ? (
+            {loading && (
                 <Loading></Loading>
-            ) : (
-                <>
-                <Container>
-                    <CardPayment 
-                        initialization={settings.initialization}
-                        onSubmit={settings.callbacks.onSubmit}
-                        onReady={settings.callbacks.onReady}
-                        onError={settings.callbacks.onError}
-                        customization={settings.customization}
-                        />
-                </Container>
-                <div className="div-botones-modal">
-                    <Button className="boton-int-modal" variant="outline-warning" onClick={() => setSeccion(1)}>
-                        Volver
-                    </Button>
-                </div>
-                </>
             )}
+            
+            <Container className={show ? "block": "hidden"}>
+                <CardPayment 
+                    initialization={settings.initialization}
+                    onSubmit={settings.callbacks.onSubmit}
+                    onReady={settings.callbacks.onReady}
+                    onError={settings.callbacks.onError}
+                    customization={settings.customization}
+                    />
+            </Container>
+            <div className="div-botones-modal">
+                <Button className="boton-int-modal" variant="outline-warning" onClick={() => setSeccion(1)}>
+                    Volver
+                </Button>
+            </div>
+            
+            
         </Container>
     );
 }

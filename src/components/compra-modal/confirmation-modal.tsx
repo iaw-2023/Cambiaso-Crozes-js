@@ -12,7 +12,8 @@ function ConfirmarPedido(props:any) {
         fecha: "",
         precio_total: 0,
         cliente_id: props.loggedUser.id,
-        quesos: {}
+        quesos: {},
+        id_pago: undefined
     });
 
     const handleClose = () => {

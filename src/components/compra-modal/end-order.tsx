@@ -17,8 +17,8 @@ function EndOrder ({ pedidoHook, seccionHook }: EndOrderProps) {
     const { getAccessTokenSilently } = useAuth0();
     const carrito = useShoppingCart();
 
-    const {pedido, setPedido} = pedidoHook;
-    const { seccion, setSeccion} = seccionHook;
+    const { pedido, setPedido } = pedidoHook;
+    const { seccion, setSeccion } = seccionHook;
 
     const [isLoaded, setLoaded] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -40,32 +40,37 @@ function EndOrder ({ pedidoHook, seccionHook }: EndOrderProps) {
     }, [carrito]);
 
     async function crearPedido(){
-        console.log(pedido)
-        const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos';
-        const token = await getAccessTokenSilently();
-        await fetch(urlPedido, {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-                accept: "application/json",
-            },
-            body: JSON.stringify(pedido)
-        }).then((response) => {
-            if (!response.ok) {
-                if(response.status === 422)
-                    throw new Error("No tenemos alguno de los quesos que solicitaste, debemos reiniciar tu carrito :(");   
-                else
-                    throw new Error("No se pudo realizar el pedido, inténtalo más tarde");   
-            }
-            else {
-                setLoaded(true);
-            }
-        }).catch((error: Error) => {
+        if (pedido.id_pago === undefined) {
+            setErrorMessage("No se pudo completar el pago, inténtelo más tarde");
             setLoaded(true);
-            setErrorMessage(error.message);
-        });
+        }
+        else {
+            const urlPedido = process.env.REACT_APP_MY_ENV + 'pedidos';
+            const token = await getAccessTokenSilently();
+            await fetch(urlPedido, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    accept: "application/json",
+                },
+                body: JSON.stringify(pedido)
+            }).then((response) => {
+                if (!response.ok) {
+                    if(response.status === 422)
+                        throw new Error("No tenemos alguno de los quesos que solicitaste, debemos reiniciar tu carrito :(");   
+                    else
+                        throw new Error("No se pudo realizar el pedido, inténtalo más tarde");   
+                }
+                else {
+                    setLoaded(true);
+                }
+            }).catch((error: Error) => {
+                setLoaded(true);
+                setErrorMessage(error.message);
+            });
+        }
     }
 
     useEffect(() => {
