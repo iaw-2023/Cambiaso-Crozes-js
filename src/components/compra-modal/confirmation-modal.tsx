@@ -4,14 +4,19 @@ import Modal from 'react-bootstrap/Modal';
 import ConfirmOrder from './confirm-order';
 import EndOrder from './end-order';
 import PayOrder from './pay-order';
+import { useLoggedUser } from '../../context/usuario-contexto';
 
-function ConfirmarPedido(props:any) {
+function ConfirmarPedido() {
     const [show, setShow] = useState(false);
+
+    const {
+        getLoggedUser
+    } = useLoggedUser();
 
     const [pedido, setPedido] = useState({
         fecha: "",
         precio_total: 0,
-        cliente_id: props.loggedUser.id,
+        cliente_id: getLoggedUser().id,
         quesos: {},
         id_pago: undefined
     });
@@ -30,19 +35,19 @@ function ConfirmarPedido(props:any) {
             Finalizar Compra
         </Button>
 
-        <Modal show={show} onHide={handleClose} backdrop="static" >
+        <Modal className='modal-pedido' show={show} onHide={handleClose} backdrop="static" >
             <Modal.Header>
                 <Modal.Title><h1>Confirmar compra</h1></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {seccion === 1 && (
                     <ConfirmOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }} loggedUser={props.loggedUser}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }}
                     />
                 )}
                 {seccion === 2 && (
                     <PayOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }} loggedUser={props.loggedUser}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }}
                     />
                 )}
                 {seccion === 3 && (

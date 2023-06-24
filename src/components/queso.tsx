@@ -55,7 +55,7 @@ function QuesoIndividual() {
                         <hr className="separador"/>
                         <Container className="comprar-queso">
                             <Row>
-                                <Col sm={8}>
+                                <Col sm={8} xs={6}>
                                     <FloatingLabel
                                     className="seleccionar-queso-label"
                                     controlId="floatingSelectGrid"

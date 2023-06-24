@@ -3,18 +3,22 @@ import CartItem from "../../models/carritoItem";
 import { useShoppingCart } from "../../context/carrito-contexto";
 import { useEffect } from "react";
 import Cliente from "../../models/cliente";
+import { useLoggedUser } from "../../context/usuario-contexto";
 
 type ConfirmOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     showHook: { show: boolean; setShow: (show: boolean) => void};
-    loggedUser: Cliente
 };
 
-function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: ConfirmOrderProps) {
+function ConfirmOrder ({ pedidoHook, seccionHook, showHook }: ConfirmOrderProps) {
 
     const {setSeccion} = seccionHook;
     const {show, setShow} = showHook;
+
+    const {
+        getLoggedUser
+    } = useLoggedUser();
 
     const carrito = useShoppingCart();
 
@@ -50,7 +54,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: Confir
                         <p>
                             Nombre:{" "}
                             <span className="datos-confirmar-pedido">
-                                {loggedUser.nombre}
+                                {getLoggedUser().nombre}
                             </span>
                         </p>
                     </div>
@@ -58,7 +62,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: Confir
                         <p>
                             Apellido:{" "}
                             <span className="datos-confirmar-pedido">
-                                {loggedUser.apellido}
+                                {getLoggedUser().apellido}
                             </span>
                         </p>
                     </div>
@@ -66,7 +70,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: Confir
                         <p>
                             Ciudad:{" "}
                             <span className="datos-confirmar-pedido">
-                                {loggedUser.ciudad}
+                                {getLoggedUser().ciudad}
                             </span>
                         </p>
                     </div>
@@ -74,7 +78,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: Confir
                         <p>
                             Domicilio:{" "}
                             <span className="datos-confirmar-pedido">
-                                {loggedUser.domicilio}
+                                {getLoggedUser().domicilio}
                             </span>
                         </p>
                     </div>

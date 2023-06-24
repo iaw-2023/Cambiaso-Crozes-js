@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Row } from 'react-bootstrap';
+import { Button, Container, Row } from 'react-bootstrap';
 import Loading from '../../layouts/loading';
 import Cliente from '../../models/cliente';
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import HistorialProfile from './historialprofile';
 import EditProfile from './editprofile';
+import { useLoggedUser } from '../../context/usuario-contexto';
 
-const Profile = (props:any) => {
+const Profile = () => {
 
-  const loggedUser = props.loggedUser;
+  const {
+    isLoggedUser,
+    getLoggedUser,
+    isLoggedIn
+  } = useLoggedUser();
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -23,13 +28,40 @@ const Profile = (props:any) => {
   });
   const [historial, setHistorial] = useState([]);
 
-  const [loading, isLoading] = useState(false);
+  const [loadingUser, isLoadingUser] = useState(false);
+  const [loadingHistorial, isLoadingHistorial] = useState(false);
 
   const getDataFromAPI = async() => {
-    isLoading(true);
-    const token = await getAccessTokenSilently();
-    const url = process.env.REACT_APP_MY_ENV+"clientes/buscar/"+loggedUser.email;
-    await fetch(url,  {
+    isLoadingUser(true);
+    if(isLoggedUser()) {
+      const token = await getAccessTokenSilently();
+      const url = process.env.REACT_APP_MY_ENV+"clientes/buscar/"+getLoggedUser().email;
+      await fetch(url,  {
+          method: "GET",
+          headers: {
+              "X-CSRF-TOKEN": "",
+              accept: "application/json",
+              Authorization: `Bearer ${token}`,
+              "content-type": "application/json",
+          },
+      }).then(response => {
+        if(!response.ok) throw new Error("No se ha encontrado el cliente, debe crearlo");
+        return response.json();
+      }).then(data => {
+        setUser(data);
+        isLoadingUser(false);
+      }).catch(error => {
+        isLoadingUser(false);
+      });
+    }
+  }
+
+  const getHistorial = async() => {
+    isLoadingHistorial(true);
+    if(isLoggedUser()) {
+      const urlHistorial = process.env.REACT_APP_MY_ENV+"clientes/"+getLoggedUser().email+"/pedidos";
+      const token = await getAccessTokenSilently();
+      await fetch(urlHistorial,  {
         method: "GET",
         headers: {
             "X-CSRF-TOKEN": "",
@@ -37,45 +69,20 @@ const Profile = (props:any) => {
             Authorization: `Bearer ${token}`,
             "content-type": "application/json",
         },
-    }).then(async (response) => {
-        if(response.status === 200){
-          const dataUser = await response.json();
-          setUser(dataUser);
-          isLoading(false);
-        } else {
-          const error = await response.json();
-          isLoading(false);
-        }
-    });
-   
-  }
-
-  const getHistorial = async() => {
-    isLoading(true);
-    const urlHistorial = process.env.REACT_APP_MY_ENV+"clientes/"+loggedUser.email+"/pedidos";
-    const token = await getAccessTokenSilently();
-    await fetch(urlHistorial,  {
-      method: "GET",
-      headers: {
-          "X-CSRF-TOKEN": "",
-          accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "content-type": "application/json",
-      },
-    }).then(async (response) => {
-        if(response.status === 200){
-          const dataHistorial = await response.json();
-          setHistorial(dataHistorial);
-          isLoading(false);
-        } else {
-          const error = await response.json();
-          isLoading(false);
-        }
-    });
+      }).then(response => {
+        if(!response.ok) throw new Error("No se han encontrado pedidos del cliente");
+        return response.json();
+      }).then(data => {
+        setHistorial(data);
+        isLoadingHistorial(false);
+      }).catch(error => {
+        isLoadingHistorial(false);
+      });
+    }
   }
 
   useEffect( () => {
-    if(loggedUser){
+    if(isLoggedUser()) {
       getDataFromAPI();
       getHistorial();
     }
@@ -83,30 +90,42 @@ const Profile = (props:any) => {
 
   return (
     <>
-      { loading ? (
+      { loadingUser || loadingHistorial ? (
         <Loading></Loading>
       ): (
         <>
-          { isAuthenticated && loggedUser ? (
-            <Row xs={1} md={2} className='row-perfil'>
-              <Container className='container-perfil'>
-                <h1 className="titulo">Perfil</h1>
-                <EditProfile
-                  clienteHook={{ cliente: user, setCliente: setUser}} updateUser = {props.updateUser} loggedUser = {loggedUser}
-                />
-              </Container>
-              <Container className='container-perfil'>
-                <h1 className="titulo">Historial</h1>
-                <HistorialProfile 
-                  historial = {historial}
-                />
-              </Container>
-            </Row>
-          ): (
-            <>
-              <Navigate to="/perfil/crear"></Navigate>
-            </>
-          )}
+        { isLoggedIn && (
+          <>
+            { isLoggedUser() ? (
+              <Row xs={1} md={2} className='row-perfil'>
+                <Container className='container-perfil'>
+                  <h1 className="titulo">Perfil</h1>
+                  <EditProfile
+                    clienteHook={{ cliente: user, setCliente: setUser}}
+                  />
+                </Container>
+                <Container className='container-perfil'>
+                  <h1 className="titulo">Historial</h1>
+                  <HistorialProfile 
+                    historial = {historial}
+                  />
+                </Container>
+              </Row>
+            ): (
+              
+              <Navigate to="/perfil/crear"></Navigate> 
+              // <Container className='container-redirigir-crear'>
+              //   <h1>Primero debes crear tu perfil</h1>
+              //   <hr className="separador"/>
+              //   <Link to={'/perfil/crear'}>
+              //     <Button variant="outline-warning">
+              //       Crear Perfil
+              //     </Button>
+              //   </Link>
+              // </Container>
+            )}
+          </>
+        )}
         </>
       )}
     </>

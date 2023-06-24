@@ -4,10 +4,15 @@ import CartItem from '../models/carritoItem';
 import { BsFillTrashFill } from "react-icons/bs";
 import ConfirmarPedido from './compra-modal/confirmation-modal';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useLoggedUser } from "../context/usuario-contexto";
 
-function Carrito(props:any) {
+function Carrito() {
 
     const {isAuthenticated} = useAuth0();
+    
+    const {
+        isLoggedUser
+    } = useLoggedUser();
 
     const {
         getCartItems,
@@ -25,7 +30,8 @@ function Carrito(props:any) {
                 <Container>
                     <Stack gap={2}>
                         {getCartItems().map((item: CartItem, idx) => (
-                            <Stack key={idx} direction="horizontal" gap={2} className="d-flex align-items-center">
+                            <div key={idx} >
+                            <Stack direction="horizontal" gap={3} className="d-flex align-items-center flex-wrap">
                                 <img
                                     src={"data:image/png;base64," + item.queso.foto} 
                                     className="carrito-imagen-queso"
@@ -52,7 +58,7 @@ function Carrito(props:any) {
                                     </Button>
                                 </div>
 
-                                <div className="carrito-item-precio"> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)}</div>
+                                <div className="carrito-item-precio ms-auto"> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)}</div>
                                 <Button
                                     variant="outline-danger"
                                     size="sm"
@@ -61,6 +67,9 @@ function Carrito(props:any) {
                                     <BsFillTrashFill/>
                                 </Button>
                             </Stack>
+                            
+                            <hr className="separador"/>
+                            </div>
                         ))}
                         <div className="ms-auto fw-bold fs-5">
                             
@@ -71,8 +80,8 @@ function Carrito(props:any) {
                         </div>
                     </Stack>
 
-                    {isAuthenticated && props.loggedUser ? 
-                    <ConfirmarPedido loggedUser={props.loggedUser} />
+                    {isAuthenticated && isLoggedUser() ? 
+                        <ConfirmarPedido />
                     :
                     (
                         <p className="text-base">Debe registrarse y completar sus datos para poder comprar sus quesos!</p>

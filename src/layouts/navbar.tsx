@@ -12,21 +12,31 @@ import { Button } from 'react-bootstrap';
 import { useShoppingCart } from '../context/carrito-contexto';
 import { useAuth0 } from '@auth0/auth0-react';
 import Loading from './loading';
+import { useLoggedUser } from '../context/usuario-contexto';
 
-function NavbarEx(props:any) {
+function NavbarEx() {
 
-    let loggedUser = props.loggedUser;
+    const {
+        isLoggedIn,
+        setIsLoggedIn,
+        isLoggedUser,
+        setUserAsLogged,
+        deleteLoggedUser,
+        getLoggedUser
+    } = useLoggedUser();
 
     const navigate = useNavigate();
 
     const { isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
 
     const [loading, isLoading] = useState(false);
+    const [loadingAutenticado, isLoadingAutenticado] = useState(false);
 
     const [categorias, setCategoria] = useState([]);
     const { cartQuantity } = useShoppingCart();
 
     const getUserFromAPI = async () => {
+        isLoadingAutenticado(true);
         isLoading(true);
         const token = await getAccessTokenSilently();
         let response;
@@ -42,30 +52,32 @@ function NavbarEx(props:any) {
             });
         } catch(error) {
             isLoading(false);
+            isLoadingAutenticado(false);
             return;
         }
         
-        if(response.status === 200){
+        if(response.status === 200) {
             const dataUser = await response.json();
-            props.updateUser(dataUser);
-
-            loggedUser = dataUser;
-            isLoading(false);
-        } else if(response.status === 404){
+            setUserAsLogged(dataUser);
+            setIsLoggedIn(true);
+            isLoadingAutenticado(false);
+        } else if(response.status === 404) {
             navigate('/perfil/crear');
-            isLoading(false);
-        } else{
-            const error = await response.json();
-            isLoading(false);
+            setIsLoggedIn(true);
+            isLoadingAutenticado(false);
+        } else {
+            //error
+            isLoadingAutenticado(false);
         }
         
     }
 
     useEffect( () => {
-        if(isAuthenticated){
+        if(isAuthenticated) {
             getUserFromAPI();
-        } else{
-            props.updateUser(null);
+        } else {
+            setIsLoggedIn(false);
+            deleteLoggedUser();
         }
     }, [isAuthenticated]);
    
@@ -124,23 +136,29 @@ function NavbarEx(props:any) {
                                     <NavDropdown.Item key={idx} as={Link} to={{pathname: 'quesos/categoria/'+categoria.tipo_de_queso}} state={{id: categoria.id}}>{categoria.tipo_de_queso}</NavDropdown.Item>
                                 )}
                             </NavDropdown>
+                            <b><Nav.Link as={Link} to="/recetas">Recetas</Nav.Link></b>
                         </Nav>
                         <Nav className='carrito-nav'>
                             {isAuthenticated ? (
                                 <>
-                                    {loading ? (
+                                    {loadingAutenticado && isLoggedIn === false ? (
                                         <Loading></Loading>
                                     ): (
                                         <>
                                             <b><Nav.Link as={Link} to="/perfil">Perfil</Nav.Link></b>
-                                            <b><Nav.Link onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Salir</Nav.Link></b>
+                                            <b><Nav.Link onClick={() => {
+                                                logout({ logoutParams: { returnTo: window.location.origin } });
+                                                deleteLoggedUser();
+                                                setIsLoggedIn(false);
+                                                isLoadingAutenticado(true);
+                                            }}>Salir</Nav.Link></b>
                                         </>
                                     )}
                                 </>
                                 
                             ): (
                                 <>
-                                    {loading ? (
+                                    {loading && isLoggedIn === true ? (
                                         <Loading></Loading>
                                     ): (
                                         <b><Nav.Link onClick={ () => loginWithRedirect() }>Ingresar</Nav.Link></b>

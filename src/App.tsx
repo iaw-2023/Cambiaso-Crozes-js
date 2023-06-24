@@ -13,6 +13,8 @@ import QuesoIndividual from './components/queso';
 import Profile from './components/perfil/profile';
 import EditProfile from './components/perfil/editprofile';
 import CreateProfile from './components/perfil/createprofile';
+import Recetas from './components/recetas';
+import { LoggedUserProvider } from './context/usuario-contexto';
 
 function App() {
 
@@ -20,34 +22,38 @@ function App() {
 
   return (
     <ShoppingCartProvider>
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={ <NavbarEx updateUser={setLoggedUser} loggedUser={loggedUser}/> }>
-              <Route index element={ <Home /> }/>
-              <Route path='quesos' element={ <Quesos /> }/>
-              <Route path='quesos/page/:number' element={ <Quesos /> }/>
+      <LoggedUserProvider>
+        <div className="App">
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={ <NavbarEx /> }>
+                <Route index element={ <Home /> }/>
+                <Route path='quesos' element={ <Quesos /> }/>
+                <Route path='quesos/page/:number' element={ <Quesos /> }/>
 
-              <Route path='quesos/:nombre' element={<QuesoIndividual/>}/>
+                <Route path='quesos/:nombre' element={<QuesoIndividual />}/>
 
-              <Route path='carrito' element={ <Carrito loggedUser={loggedUser} /> }/>
+                <Route path='recetas' element={ <Recetas /> }/>
 
-              <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
-              <Route path='quesos/categoria/:tipo_de_queso/page/:number' element={ <QuesosxCategoria /> } />
+                <Route path='carrito' element={ <Carrito /> }/>
 
-              <Route path='quesos/buscar/:queso_a_buscar' element={<Buscar/>}/>
-              <Route path='quesos/buscar/:queso_a_buscar/page/:number' element={<Buscar/>}/>
+                <Route path='quesos/categoria/:tipo_de_queso' element={ <QuesosxCategoria /> } />
+                <Route path='quesos/categoria/:tipo_de_queso/page/:number' element={ <QuesosxCategoria /> } />
 
-              <Route path='perfil' element={ <Profile updateUser={setLoggedUser} loggedUser={loggedUser}/> }/>
-              <Route path='perfil/crear' element={ <CreateProfile updateUser={setLoggedUser} loggedUser={loggedUser}/> }/>
+                <Route path='quesos/buscar/:queso_a_buscar' element={<Buscar/>}/>
+                <Route path='quesos/buscar/:queso_a_buscar/page/:number' element={<Buscar/>}/>
 
-              [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
-              <Route path='*' element={ <Navigate replace to="/" />}/> 
-            </Route>
-          </Routes>
-        </BrowserRouter>
-        <Footer></Footer>
-      </div>
+                <Route path='perfil' element={ <Profile /> }/>
+                <Route path='perfil/crear' element={ <CreateProfile /> }/>
+
+                [//cuando ponen una ruta mal en el navegador siempre lleva a la vista principal]
+                <Route path='*' element={ <Navigate replace to="/" />}/> 
+              </Route>
+            </Routes>
+          </BrowserRouter>
+          <Footer></Footer>
+        </div>
+      </LoggedUserProvider>
     </ShoppingCartProvider>
   );  
 }

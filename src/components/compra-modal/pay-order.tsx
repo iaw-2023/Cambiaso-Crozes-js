@@ -6,19 +6,23 @@ import { useState } from 'react';
 import Loading from "../../layouts/loading";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setOriginalNode } from "typescript";
+import { useLoggedUser } from "../../context/usuario-contexto";
 
 type PayOrderProps = {
     pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
     seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
     showHook: { show: boolean; setShow: (show: boolean) => void};
-    loggedUser: Cliente
 };
 
-function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderProps) {
+function PayOrder ({ pedidoHook, seccionHook, showHook }: PayOrderProps) {
     const {pedido, setPedido} = pedidoHook;
     const {seccion, setSeccion} = seccionHook;
     const [loading, isLoading] = useState(true);
     const [show, setShow] = useState(false);
+
+    const {
+        getLoggedUser
+    } = useLoggedUser();
 
     const { getAccessTokenSilently } = useAuth0();
 
@@ -30,7 +34,7 @@ function PayOrder ({ pedidoHook, seccionHook, showHook, loggedUser }: PayOrderPr
         initialization: {
             amount: pedido.precio_total,
             payer: {
-                email: loggedUser.email,
+                email: getLoggedUser().email,
             },
         },
         callbacks: {
