@@ -13,7 +13,6 @@ import QuesoIndividual from './components/queso';
 import Profile from './components/perfil/profile';
 import EditProfile from './components/perfil/editprofile';
 import CreateProfile from './components/perfil/createprofile';
-import Recetas from './components/recetas';
 import { LoggedUserProvider } from './context/usuario-contexto';
 
 function App() {
@@ -32,8 +31,6 @@ function App() {
                 <Route path='quesos/page/:number' element={ <Quesos /> }/>
 
                 <Route path='quesos/:nombre' element={<QuesoIndividual />}/>
-
-                <Route path='recetas' element={ <Recetas /> }/>
 
                 <Route path='carrito' element={ <Carrito /> }/>
 

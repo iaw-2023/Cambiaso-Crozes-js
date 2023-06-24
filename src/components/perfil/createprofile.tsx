@@ -102,7 +102,7 @@ const CreateProfile = () => {
             : 
             (    
                 <>
-                {isAuthenticated && isLoggedIn ? (
+                {isAuthenticated && isLoggedIn && (
                     <Container className='container-perfil'>
                         <h1 className="titulo">Crear Usuario</h1>
                         <h3 className="subtitulo">Podrás modificar tus datos más adelante</h3>
@@ -200,8 +200,6 @@ const CreateProfile = () => {
                         
                     </Form>
                     </Container>
-                ) : (
-                    <Navigate to="/"></Navigate> 
                 )}
                 </>
             )}

@@ -43,23 +43,23 @@ function NavbarEx() {
                     Authorization: `Bearer ${token}`,
                     "content-type": "application/json",
                 },
-            }).then(async (response) =>{
+            }).then(response => {
                 if(response.status === 200) {
-                    const dataUser = await response.json();
-                    setUserAsLogged(dataUser);
-                    setIsLoggedIn(true);
-                    isLoading(false);
-                } else if(response.status === 404) {
+                    return response.json();
+                } else if(response.status === 202) {
                     navigate('/perfil/crear');
                     setIsLoggedIn(true);
                     isLoading(false);
                 } else {
-                    //error
-                    isLoading(false);
+                    throw new Error("Ha ocurrido un error inesperado buscando el cliente logueado");
                 }
-            }
-                
-            );
+            }).then(data => {
+                setUserAsLogged(data);
+                setIsLoggedIn(true);
+                isLoading(false);
+            }).catch(error => {
+                isLoading(false);
+            });
         } catch(error) {
             isLoading(false);
         }        
@@ -130,7 +130,6 @@ function NavbarEx() {
                                     <NavDropdown.Item key={idx} as={Link} to={{pathname: 'quesos/categoria/'+categoria.tipo_de_queso}} state={{id: categoria.id}}>{categoria.tipo_de_queso}</NavDropdown.Item>
                                 )}
                             </NavDropdown>
-                            <b><Nav.Link as={Link} to="/recetas">Recetas</Nav.Link></b>
                         </Nav>
                         <Nav className='carrito-nav'>
                             

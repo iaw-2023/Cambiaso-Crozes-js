@@ -94,7 +94,7 @@ const Profile = () => {
         <Loading></Loading>
       ): (
         <>
-        { isLoggedIn ? (
+        { isAuthenticated && isLoggedIn && (
           <>
             { isLoggedUser() ? (
               <Row xs={1} md={2} className='row-perfil'>
@@ -112,12 +112,9 @@ const Profile = () => {
                 </Container>
               </Row>
             ): (
-              
               <Navigate to="/perfil/crear"></Navigate> 
             )}
           </>
-        ):(
-          <Navigate to="/"></Navigate> 
         )}
         </>
       )}
