@@ -47,11 +47,11 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook }: ConfirmOrderProps)
     return (
         <Container>
             <Container className="border-dashed border-2 border-gray-200 rounded container-info-pedido">
-            <h3>Datos del cliente</h3>
+            <h3 className="mt-1">Datos del cliente</h3>
             <Stack gap={2}>    
-                <div className="me-auto">
+                <div>
                     <div>
-                        <p>
+                        <p className="text-lg mb-0">
                             Nombre:{" "}
                             <span className="datos-confirmar-pedido">
                                 {getLoggedUser().nombre}
@@ -59,7 +59,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook }: ConfirmOrderProps)
                         </p>
                     </div>
                     <div>
-                        <p>
+                        <p className="text-lg mb-0">
                             Apellido:{" "}
                             <span className="datos-confirmar-pedido">
                                 {getLoggedUser().apellido}
@@ -67,7 +67,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook }: ConfirmOrderProps)
                         </p>
                     </div>
                     <div>
-                        <p>
+                        <p className="text-lg mb-0">
                             Ciudad:{" "}
                             <span className="datos-confirmar-pedido">
                                 {getLoggedUser().ciudad}
@@ -75,7 +75,7 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook }: ConfirmOrderProps)
                         </p>
                     </div>
                     <div>
-                        <p>
+                        <p className="text-lg mb-0">
                             Domicilio:{" "}
                             <span className="datos-confirmar-pedido">
                                 {getLoggedUser().domicilio}
@@ -87,33 +87,33 @@ function ConfirmOrder ({ pedidoHook, seccionHook, showHook }: ConfirmOrderProps)
             </Container>
 
             <Container className="border-dashed border-2 border-gray-200 rounded container-info-pedido">
-            <h3>Datos del pedido</h3>
+            <h3 className="mt-1">Datos del pedido</h3>
             <Stack gap={2}>
                 {carrito.getCartItems().map((item: CartItem, idx:any) => (
                     <div key={idx}>
                     <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
                         <div className="me-auto">
                             <div>
-                                <p>
-                                {item.queso.nombre}{" "}
-                                <span className="pedido-cant-queso">
-                                    x{item.gramosQueso}g
-                                </span>
+                                <p className="text-lg mb-0">
+                                    {item.queso.nombre}{" "}
+                                    <span className="pedido-cant-queso text-base">
+                                        x{item.gramosQueso}g
+                                    </span>
                                 </p>
                             </div>
                             <div className="pedido-precio-queso">
-                                <p>
-                                ${item.queso.precio_x_kg}
+                                <p className="text-base mb-0">
+                                    ${item.queso.precio_x_kg}
                                 </p>
                             </div>
                         </div>
-                        <div><p> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)} </p></div>
+                        <div><p  className="text-lg mb-0"> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)} </p></div>
                     </Stack>
                     <hr className="separador2"/>
                     </div>
                 ))}
                 <div className="ms-auto fw-bold fs-5">
-                <p>Total: ${carrito.getCartItems().reduce((total, cartItem) => {
+                <p className="text-lg mb-0">Total: ${carrito.getCartItems().reduce((total, cartItem) => {
                                 return total + ((cartItem.queso.precio_x_kg) * (+cartItem.gramosQueso) / 1000)
                             }, 0)}</p>
                 </div>

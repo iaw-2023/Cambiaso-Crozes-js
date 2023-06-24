@@ -17,6 +17,7 @@ const EditProfile = ({clienteHook}: EditProps) => {
     const { getAccessTokenSilently } = useAuth0();
     
     const [showAlert, setShowAlert] = useState(false);
+    const [alertText, setAlertText] = useState("");
     const [loading, isLoading] = useState(false);
 
     const {cliente, setCliente} = clienteHook;
@@ -65,14 +66,19 @@ const EditProfile = ({clienteHook}: EditProps) => {
         }).then(async (response) => {
             if(response.status === 200) {
                 setUserAsLogged(cliente);
-                // Sus datos se actualizaron correctamente!
+                
+                setAlertText("Sus datos se actualizaron correctamente!");
                 setShowAlert(true);
                 setTimeout(() => {
                     setShowAlert(false);
                 }, 3000); 
-            
                 isLoading(false);
             } else {
+                setAlertText("Ha ocurrido un error, intente más tarde.");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000); 
                 isLoading(false);
             }
         });
@@ -83,6 +89,7 @@ const EditProfile = ({clienteHook}: EditProps) => {
             <Form.Group>
                 <FloatingLabel label="Email" className="mb-3 text-black">
                 <Form.Control
+                    className='form-editar-size'
                     type="email"
                     value={cliente.email}
                     disabled
@@ -94,6 +101,7 @@ const EditProfile = ({clienteHook}: EditProps) => {
                 <InputGroup>
                     <FloatingLabel label="Nombre" className="mb-3 text-black">
                     <Form.Control
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su nombre"
                         value={cliente.nombre}
@@ -111,6 +119,7 @@ const EditProfile = ({clienteHook}: EditProps) => {
                 <InputGroup>
                     <FloatingLabel label="Apellido" className="mb-3 text-black">
                     <Form.Control
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su apellido"
                         value={cliente.apellido}
@@ -127,7 +136,8 @@ const EditProfile = ({clienteHook}: EditProps) => {
             <Form.Group>
                 <InputGroup>
                     <FloatingLabel label="Ciudad" className="mb-3 text-black">
-                    <Form.Control
+                    <Form.Control 
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su ciudad"
                         value={cliente.ciudad}
@@ -145,6 +155,7 @@ const EditProfile = ({clienteHook}: EditProps) => {
                 <InputGroup>
                     <FloatingLabel label="Domicilio" className="mb-3 text-black">
                     <Form.Control
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su domicilio"
                         value={cliente.domicilio}
@@ -168,7 +179,7 @@ const EditProfile = ({clienteHook}: EditProps) => {
                     </Button>
                     {showAlert && (
                         <Alert className="floating-alert" variant="warning" onClose={() => {setShowAlert(false)}} dismissible>
-                            Sus datos se han actualizado correctamente!
+                            {alertText}
                         </Alert>
                     )}
                     </>

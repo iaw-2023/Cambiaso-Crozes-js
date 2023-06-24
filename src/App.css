@@ -100,7 +100,7 @@
 }
 
 .carrito-precio-queso {
-  font-size: .75rem;
+  font-size: .95rem;
   color:rgb(150, 150, 150);
 }
 
@@ -241,7 +241,7 @@ Carousel {
   color: #F7D65A !important;
   background-color: black !important;
   border-color: #F7D65A !important;
-  width: 80% !important;
+  width: 100% !important;
 }
 
 .seleccionar-queso-label {
@@ -326,7 +326,6 @@ Carousel {
 }
 
 .datos-confirmar-pedido {
-  font-size: 1vmax; 
   color:rgb(89, 89, 89);
 }
 
@@ -339,7 +338,6 @@ Carousel {
 }
 
 .pedido-cant-queso {
-  font-size: .65rem; 
   color:rgb(89, 89, 89);
 }
 
@@ -368,6 +366,11 @@ Carousel {
 
 .row-perfil {
   max-width: 100%;
+}
+
+.form-editar-size{
+  font-size: larger !important; 
+  color:rgb(89, 89, 89) !important; 
 }
 
 

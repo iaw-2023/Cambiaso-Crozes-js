@@ -54,11 +54,10 @@ function QuesoIndividual() {
                         <h3 className="titulo3">Precio por kilo: ${estado.precio_x_kg}</h3>
                         <hr className="separador"/>
                         <Container className="comprar-queso">
-                            <Row>
-                                <Col sm={8} xs={6}>
+                            <Row >
+                                <Col xs={8}>
                                     <FloatingLabel
-                                    className="seleccionar-queso-label"
-                                    controlId="floatingSelectGrid"
+                                    className="seleccionar-queso-label text-white text-lg"
                                     label="Seleccione la cantidad de queso deseada"
                                     >
                                         <Form.Select className="seleccionar-queso" aria-label="Seleccion de queso" onChange={handleChange}>
@@ -69,7 +68,7 @@ function QuesoIndividual() {
                                         </Form.Select>
                                     </FloatingLabel>
                                 </Col>
-                                <Col sm={4}>
+                                <Col xs={4}>
                                     <Button variant="outline-warning" className="boton-comprar" onClick={handleButtonClick}>Agregar al Carrito</Button>
                                 </Col>
                             </Row>

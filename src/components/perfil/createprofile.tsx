@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { Alert, Button, Container, FloatingLabel, Form, InputGroup } from 'react-bootstrap';
 import Cliente from '../../models/cliente';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Loading from '../../layouts/loading';
 import { useLoggedUser } from '../../context/usuario-contexto';
 
@@ -102,7 +102,7 @@ const CreateProfile = () => {
             : 
             (    
                 <>
-                {isAuthenticated && isLoggedIn && (
+                {isAuthenticated && isLoggedIn ? (
                     <Container className='container-perfil'>
                         <h1 className="titulo">Crear Usuario</h1>
                         <h3 className="subtitulo">Podrás modificar tus datos más adelante</h3>
@@ -200,6 +200,8 @@ const CreateProfile = () => {
                         
                     </Form>
                     </Container>
+                ) : (
+                    <Navigate to="/"></Navigate> 
                 )}
                 </>
             )}

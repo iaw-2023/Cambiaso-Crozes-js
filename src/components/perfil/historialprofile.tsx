@@ -55,7 +55,7 @@ const HistorialProfile = ({historial}: HistorialProps) => {
         </>
       ) : (
         <>
-          <p className="text-base">Aún no has realizado ningún pedido :(</p>
+          <p className="text-lg mt-3">Aún no has realizado ningún pedido :(</p>
         </>
       )}
     </Container>

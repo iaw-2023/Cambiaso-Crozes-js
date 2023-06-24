@@ -60,6 +60,7 @@ function Carrito() {
 
                                 <div className="carrito-item-precio ms-auto"> ${(item.queso.precio_x_kg * item.gramosQueso / 1000)}</div>
                                 <Button
+                                    data-toggle="tooltip" data-placement="bottom" title="Eliminar"
                                     variant="outline-danger"
                                     size="sm"
                                     onClick={() => removeFromCart(item.id)}
@@ -68,7 +69,7 @@ function Carrito() {
                                 </Button>
                             </Stack>
                             
-                            <hr className="separador"/>
+                            <hr className="separador mt-4"/>
                             </div>
                         ))}
                         <div className="ms-auto fw-bold fs-5">

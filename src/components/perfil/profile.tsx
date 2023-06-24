@@ -94,7 +94,7 @@ const Profile = () => {
         <Loading></Loading>
       ): (
         <>
-        { isLoggedIn && (
+        { isLoggedIn ? (
           <>
             { isLoggedUser() ? (
               <Row xs={1} md={2} className='row-perfil'>
@@ -114,17 +114,10 @@ const Profile = () => {
             ): (
               
               <Navigate to="/perfil/crear"></Navigate> 
-              // <Container className='container-redirigir-crear'>
-              //   <h1>Primero debes crear tu perfil</h1>
-              //   <hr className="separador"/>
-              //   <Link to={'/perfil/crear'}>
-              //     <Button variant="outline-warning">
-              //       Crear Perfil
-              //     </Button>
-              //   </Link>
-              // </Container>
             )}
           </>
+        ):(
+          <Navigate to="/"></Navigate> 
         )}
         </>
       )}

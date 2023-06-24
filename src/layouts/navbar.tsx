@@ -17,31 +17,25 @@ import { useLoggedUser } from '../context/usuario-contexto';
 function NavbarEx() {
 
     const {
-        isLoggedIn,
         setIsLoggedIn,
-        isLoggedUser,
         setUserAsLogged,
         deleteLoggedUser,
-        getLoggedUser
     } = useLoggedUser();
 
     const navigate = useNavigate();
 
     const { isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
 
-    const [loading, isLoading] = useState(false);
-    const [loadingAutenticado, isLoadingAutenticado] = useState(false);
+    const [loading, isLoading] = useState(true);
 
     const [categorias, setCategoria] = useState([]);
     const { cartQuantity } = useShoppingCart();
 
     const getUserFromAPI = async () => {
-        isLoadingAutenticado(true);
         isLoading(true);
         const token = await getAccessTokenSilently();
-        let response;
         try {
-            response = await fetch(process.env.REACT_APP_MY_ENV+"clienteLoggeado", {
+            await fetch(process.env.REACT_APP_MY_ENV+"clienteLoggeado", {
                 method: "GET",
                 headers: {
                     "X-CSRF-TOKEN": "",
@@ -49,30 +43,30 @@ function NavbarEx() {
                     Authorization: `Bearer ${token}`,
                     "content-type": "application/json",
                 },
-            });
+            }).then(async (response) =>{
+                if(response.status === 200) {
+                    const dataUser = await response.json();
+                    setUserAsLogged(dataUser);
+                    setIsLoggedIn(true);
+                    isLoading(false);
+                } else if(response.status === 404) {
+                    navigate('/perfil/crear');
+                    setIsLoggedIn(true);
+                    isLoading(false);
+                } else {
+                    //error
+                    isLoading(false);
+                }
+            }
+                
+            );
         } catch(error) {
             isLoading(false);
-            isLoadingAutenticado(false);
-            return;
-        }
-        
-        if(response.status === 200) {
-            const dataUser = await response.json();
-            setUserAsLogged(dataUser);
-            setIsLoggedIn(true);
-            isLoadingAutenticado(false);
-        } else if(response.status === 404) {
-            navigate('/perfil/crear');
-            setIsLoggedIn(true);
-            isLoadingAutenticado(false);
-        } else {
-            //error
-            isLoadingAutenticado(false);
-        }
-        
+        }        
     }
 
     useEffect( () => {
+        isLoading(false);
         if(isAuthenticated) {
             getUserFromAPI();
         } else {
@@ -139,34 +133,31 @@ function NavbarEx() {
                             <b><Nav.Link as={Link} to="/recetas">Recetas</Nav.Link></b>
                         </Nav>
                         <Nav className='carrito-nav'>
-                            {isAuthenticated ? (
-                                <>
-                                    {loadingAutenticado && isLoggedIn === false ? (
-                                        <Loading></Loading>
-                                    ): (
-                                        <>
-                                            <b><Nav.Link as={Link} to="/perfil">Perfil</Nav.Link></b>
-                                            <b><Nav.Link onClick={() => {
-                                                logout({ logoutParams: { returnTo: window.location.origin } });
-                                                deleteLoggedUser();
-                                                setIsLoggedIn(false);
-                                                isLoadingAutenticado(true);
-                                            }}>Salir</Nav.Link></b>
-                                        </>
-                                    )}
-                                </>
-                                
+                            
+                            {loading ? (
+                                <Loading></Loading>
                             ): (
                                 <>
-                                    {loading && isLoggedIn === true ? (
-                                        <Loading></Loading>
-                                    ): (
-                                        <b><Nav.Link onClick={ () => loginWithRedirect() }>Ingresar</Nav.Link></b>
-                                    )}
+                                {isAuthenticated ? (
+                                    <>
+                                    <b><Nav.Link as={Link} to="/perfil">Perfil</Nav.Link></b>
+                                    <b><Nav.Link onClick={() => {
+                                        logout({ logoutParams: { returnTo: window.location.origin } });
+                                        deleteLoggedUser();
+                                        setIsLoggedIn(false);
+                                        isLoading(true);
+                                    }}>Salir</Nav.Link></b>
+                                    </>
+                                ):(
+                                    <>
+                                    <b><Nav.Link onClick={ () => loginWithRedirect() }>Ingresar</Nav.Link></b>
+                                    </>
+                                )}
                                 </>
                             )}
+
                             <Nav.Link className='carrito-logo' as={Link} to="/carrito">
-                                <Button variant="outline-dark buscar-boton">
+                                <Button data-toggle="tooltip" data-placement="bottom" title="Carrito" variant="outline-dark buscar-boton">
                                     <BsCart4/>
                                     
                                     <div className='rounded-circle bg-black d-flex justify-content-center align-items-center carrito-logo-numero'>
@@ -186,7 +177,7 @@ function NavbarEx() {
                                     onKeyDown={handleKeyDown}
                                 />
                                 <Link to={"/quesos/buscar/"+textoABuscar}>
-                                    <Button variant="outline-dark buscar-boton" aria-label="Botón para buscar un queso"><BsSearchHeart/></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Buscar" variant="outline-dark buscar-boton" aria-label="Botón para buscar un queso"><BsSearchHeart/></Button>
                                 </Link>
                             </Form>
                         </Nav>
