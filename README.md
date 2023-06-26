@@ -2,6 +2,46 @@
 
 <h1 align="center">Una página web orientada a la venta de lo que todos amamos: el queso.</h1>
 
+<b><h2>Promoción</h2></b>
+
+<b><h3>LINK</h3></b>
+🧀 [Deploy en Vercel](https://cambiaso-crozes-js.vercel.app/)
+
+<b><h3>Puntos de promoción: </h3></b>
+🧀 <b>Autenticación de Usuarios</b>
+
+Utilizamos Auth0 para permitir a los clientes loguearse en la aplicación de React. Permitimos que un cliente pueda crear su perfil, modificar sus datos y recuperar sus pedidos. Para esto debimos extender la API para que incluya autenticación y para que devuelva los pedidos de un cliente autenticado.
+
+🧀 <b>Mercado Pago</b>
+
+Integramos Mercado Pago para que los clientes de nuestra aplicación de React puedan realizar el pago de sus pedidos. Decidimos utilizar Checkout Bricks - Card Payment Brick.
+
+🧀 <b>Administración de Archivos</b>
+
+Se implementó la administración de imágenes, que son almacenadas en la base de datos. Se permite que los empleados suban las imagenes en Laravel, y la API las devuelve correctamente para su uso en React codificadas en base64.
+
+🧀 <b>Roles en Laravel</b>
+
+Creamos dos tipos de usuarios: ADMINISTRADOR y EMPLEADO. El administrador se encarga del ABM de los empleados y sólo puede visualizar las tablas de quesos, categorías, clientes y pedidos. En cuanto al rol de empleado, éste no podrá visualizar la tabla de empleados que se mencionó anteriormente, y se encarga del ABM de los quesos y las categorías y puede visualizar las tablas de clientes y pedidos.
+
+🧀 <b>Responsive</b>
+
+La aplicación de React fue probada en distintos dispositivos de distintos tamaños y se logra adaptar correctamente, sin que ninguna de sus componentes quede fuera de la pantalla.
+
+🧀 <b>Accesibilidad</b>
+
+Se verificaron que se cumplan 5 guías de accesibilidad de las mencionadas en la W3C.
+
+-[Colores con buen contraste](https://www.w3.org/WAI/perspective-videos/contrast/)
+
+-[Disposición y diseños claros](https://www.w3.org/WAI/perspective-videos/layout/)
+
+-[Contenido comprensible](https://www.w3.org/WAI/perspective-videos/understandable/)
+
+-[Notificaciones y feedback](https://www.w3.org/WAI/perspective-videos/notifications/)
+
+-[Texto a voz](https://www.w3.org/WAI/perspective-videos/speech/)
+
 <b><h2>Proyecto Javascript - React/Vue</h2></b>
 
 <b><h3>LINK</h3></b>
