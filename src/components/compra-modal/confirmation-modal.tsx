@@ -1,32 +1,24 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import CreateClient from './create-client';
-import SearchClient from './search-client';
 import ConfirmOrder from './confirm-order';
 import EndOrder from './end-order';
+import PayOrder from './pay-order';
+import { useLoggedUser } from '../../context/usuario-contexto';
 
 function ConfirmarPedido() {
     const [show, setShow] = useState(false);
 
+    const {
+        getLoggedUser
+    } = useLoggedUser();
+
     const [pedido, setPedido] = useState({
         fecha: "",
         precio_total: 0,
-        cliente_id: 0,
-        cliente_nombre: "",
-        cliente_apellido: "",
-        cliente_ciudad: "",
-        cliente_domicilio: "",
-        quesos: {}
-    });
-
-    const [cliente, setCliente] = useState({
-        id: "",
-        nombre: "",
-        apellido: "",
-        ciudad: "",
-        domicilio: "",
-        email: ""
+        cliente_id: getLoggedUser().id,
+        quesos: {},
+        id_pago: undefined
     });
 
     const handleClose = () => {
@@ -43,30 +35,24 @@ function ConfirmarPedido() {
             Finalizar Compra
         </Button>
 
-        <Modal show={show} onHide={handleClose} backdrop="static" >
+        <Modal className='modal-pedido' show={show} onHide={handleClose} backdrop="static" >
             <Modal.Header>
                 <Modal.Title><h1>Confirmar compra</h1></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {seccion === 1 && (
-                    <SearchClient 
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
+                    <ConfirmOrder
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }}
                     />
-                    
                 )}
                 {seccion === 2 && (
-                    <CreateClient
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
+                    <PayOrder
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} showHook={{ show, setShow }}
                     />
                 )}
                 {seccion === 3 && (
-                    <ConfirmOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
-                    />
-                )}
-                {seccion === 4 && (
                     <EndOrder
-                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }} clienteHook={{ cliente, setCliente }} showHook={{ show, setShow }}
+                        pedidoHook={{ pedido, setPedido }} seccionHook={{ seccion, setSeccion }}
                     />
                 )}
             </Modal.Body>

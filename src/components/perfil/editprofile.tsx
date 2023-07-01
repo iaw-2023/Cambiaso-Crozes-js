@@ -1,20 +1,27 @@
-import { useState } from "react";
-import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
+import React, { useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Alert, Button, FloatingLabel, Form, InputGroup } from 'react-bootstrap';
+import Cliente from '../../models/cliente';
+import Loading from '../../layouts/loading';
+import { useLoggedUser } from '../../context/usuario-contexto';
 
-type CreateClientProps = {
-    pedidoHook: { pedido: any; setPedido: (pedido: any) => void };
-    seccionHook: { seccion: number; setSeccion: (seccion: number) => void };
-    clienteHook: { cliente: any; setCliente: (cliente: any) => void};
-    showHook: { show: boolean; setShow: (show: boolean) => void};
+type EditProps = {
+    clienteHook: { cliente: Cliente; setCliente: (client: Cliente) => void};
 };
+const EditProfile = ({clienteHook}: EditProps) => {
 
-function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: CreateClientProps) {
+    const {
+        setUserAsLogged
+    } = useLoggedUser();
 
-    const {pedido, setPedido} = pedidoHook;
-    const {setSeccion} = seccionHook;
+    const { getAccessTokenSilently } = useAuth0();
+    
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertText, setAlertText] = useState("");
+    const [loading, isLoading] = useState(false);
+
     const {cliente, setCliente} = clienteHook;
-    const {show, setShow} = showHook;
-
+    
     const [errorMessageNombre, setErrorMessageNombre] = useState("");
     const [errorMessageApellido, setErrorMessageApellido] = useState("");
     const [errorMessageDomicilio, setErrorMessageDomicilio] = useState("");
@@ -23,8 +30,8 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
     const handleSubmitCliente = (event:any) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
         }
 
         var patternStrings = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/;
@@ -39,30 +46,66 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
             (cliente.apellido.trim() !== '' && patternStrings.test(cliente.apellido)) && 
                 (cliente.ciudad.trim() !== '' && patternStrings.test(cliente.ciudad)) && 
                     (cliente.domicilio.trim() !== '' && patternDomicilio.test(cliente.domicilio))){
-            setSeccion(3);
+                        handleEditCliente();
         }
     }
 
+    const handleEditCliente = async () => {
+        isLoading(true);
+        const token = await getAccessTokenSilently();
+        const url = process.env.REACT_APP_MY_ENV+"clientes/"+cliente.id;
+        await fetch(url,  {
+            method: "PUT",
+            headers: {
+                "X-CSRF-TOKEN": "",
+                accept: "application/json",
+                Authorization: `Bearer ${token}`,
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(cliente)
+        }).then(async (response) => {
+            if(response.status === 200) {
+                setUserAsLogged(cliente);
+                
+                setAlertText("Sus datos se actualizaron correctamente!");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000); 
+                isLoading(false);
+            } else {
+                setAlertText("Ha ocurrido un error, intente más tarde.");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000); 
+                isLoading(false);
+            }
+        });
+    }
+
     return (
-        <Form>
+        <Form className='form-perfil'>
             <Form.Group>
-                <FloatingLabel label="Email" className="mb-3">
+                <FloatingLabel label="Email" className="mb-3 text-black">
                 <Form.Control
+                    className='form-editar-size'
                     type="email"
                     value={cliente.email}
                     disabled
                 />
                 </FloatingLabel>
             </Form.Group>
-   
+ 
             <Form.Group>
                 <InputGroup>
-                    <FloatingLabel label="Nombre" className="mb-3">
+                    <FloatingLabel label="Nombre" className="mb-3 text-black">
                     <Form.Control
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su nombre"
                         value={cliente.nombre}
-                        onChange={(e) => {setCliente({...cliente, nombre: e.target.value}); setPedido({...pedido, cliente_nombre: e.target.value});}}
+                        onChange={(e) => {setCliente({...cliente, nombre: e.target.value})}}
                         isInvalid={errorMessageNombre !== ""}
                         required
                     />
@@ -74,12 +117,13 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
             </Form.Group>
             <Form.Group>
                 <InputGroup>
-                    <FloatingLabel label="Apellido" className="mb-3">
+                    <FloatingLabel label="Apellido" className="mb-3 text-black">
                     <Form.Control
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su apellido"
                         value={cliente.apellido}
-                        onChange={(e) => {setCliente({...cliente, apellido: e.target.value}); setPedido({...pedido, cliente_apellido: e.target.value});}}
+                        onChange={(e) => {setCliente({...cliente, apellido: e.target.value});}}
                         isInvalid={errorMessageApellido !== ""}
                         required
                     />
@@ -91,12 +135,13 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
             </Form.Group>
             <Form.Group>
                 <InputGroup>
-                    <FloatingLabel label="Ciudad" className="mb-3">
-                    <Form.Control
+                    <FloatingLabel label="Ciudad" className="mb-3 text-black">
+                    <Form.Control 
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su ciudad"
                         value={cliente.ciudad}
-                        onChange={(e) => { setCliente({...cliente, ciudad: e.target.value}); setPedido({...pedido, cliente_ciudad: e.target.value});}}
+                        onChange={(e) => { setCliente({...cliente, ciudad: e.target.value});}}
                         isInvalid={errorMessageCiudad !== ""}
                         required
                     />
@@ -108,12 +153,13 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
             </Form.Group>
             <Form.Group>
                 <InputGroup>
-                    <FloatingLabel label="Domicilio" className="mb-3">
+                    <FloatingLabel label="Domicilio" className="mb-3 text-black">
                     <Form.Control
+                        className='form-editar-size'
                         type="text"
                         placeholder="Ingrese su domicilio"
                         value={cliente.domicilio}
-                        onChange={(e) => {setCliente({...cliente, domicilio: e.target.value}); setPedido({...pedido, cliente_domicilio: e.target.value});}}
+                        onChange={(e) => {setCliente({...cliente, domicilio: e.target.value});}}
                         isInvalid={errorMessageDomicilio !== ""}
                         required
                     />
@@ -123,20 +169,25 @@ function CreateClient ({ pedidoHook, seccionHook, clienteHook, showHook }: Creat
                     </FloatingLabel>
                 </InputGroup>
             </Form.Group>
-            <div className="div-botones-modal">
-                <Button className="boton-int-modal" variant="outline-dark" onClick={() => {setSeccion(1)}}>
-                    Anterior
-                </Button>
-                <Button className="boton-int-modal" variant="outline-danger" onClick={() => setShow(false)}>
-                    Cerrar
-                </Button>
-                <Button className="boton-int-modal" variant="outline-warning" onClick={handleSubmitCliente}>
-                    Siguiente
-                </Button>
+            <div>
+                { loading ? (
+                    <Loading></Loading>
+                    ): (
+                    <>
+                    <Button className="boton-int-modal" variant="outline-warning" onClick={handleSubmitCliente}>
+                        Actualizar
+                    </Button>
+                    {showAlert && (
+                        <Alert className="floating-alert" variant="warning" onClose={() => {setShowAlert(false)}} dismissible>
+                            {alertText}
+                        </Alert>
+                    )}
+                    </>
+                )}
             </div>
             
         </Form>
     )
-}
+};
 
-export default CreateClient;
+export default EditProfile;

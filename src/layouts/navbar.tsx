@@ -4,17 +4,76 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Categoria from '../models/categoria';
 import { BsCart4,BsSearchHeart } from "react-icons/bs";
 import { Button } from 'react-bootstrap';
 import { useShoppingCart } from '../context/carrito-contexto';
+import { useAuth0 } from '@auth0/auth0-react';
+import Loading from './loading';
+import { useLoggedUser } from '../context/usuario-contexto';
 
 function NavbarEx() {
 
+    const {
+        setIsLoggedIn,
+        setUserAsLogged,
+        deleteLoggedUser,
+    } = useLoggedUser();
+
+    const navigate = useNavigate();
+
+    const { isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
+
+    const [loading, isLoading] = useState(true);
+
     const [categorias, setCategoria] = useState([]);
     const { cartQuantity } = useShoppingCart();
+
+    const getUserFromAPI = async () => {
+        isLoading(true);
+        const token = await getAccessTokenSilently();
+        try {
+            await fetch(process.env.REACT_APP_MY_ENV+"clienteLoggeado", {
+                method: "GET",
+                headers: {
+                    "X-CSRF-TOKEN": "",
+                    accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "content-type": "application/json",
+                },
+            }).then(response => {
+                if(response.status === 200) {
+                    return response.json();
+                } else if(response.status === 202) {
+                    navigate('/perfil/crear');
+                    setIsLoggedIn(true);
+                    isLoading(false);
+                } else {
+                    throw new Error("Ha ocurrido un error inesperado buscando el cliente logueado");
+                }
+            }).then(data => {
+                setUserAsLogged(data);
+                setIsLoggedIn(true);
+                isLoading(false);
+            }).catch(error => {
+                isLoading(false);
+            });
+        } catch(error) {
+            isLoading(false);
+        }        
+    }
+
+    useEffect( () => {
+        isLoading(false);
+        if(isAuthenticated) {
+            getUserFromAPI();
+        } else {
+            setIsLoggedIn(false);
+            deleteLoggedUser();
+        }
+    }, [isAuthenticated]);
    
     useEffect(() => {
         const url = process.env.REACT_APP_MY_ENV + 'categorias';
@@ -73,8 +132,31 @@ function NavbarEx() {
                             </NavDropdown>
                         </Nav>
                         <Nav className='carrito-nav'>
+                            
+                            {loading ? (
+                                <Loading></Loading>
+                            ): (
+                                <>
+                                {isAuthenticated ? (
+                                    <>
+                                    <b><Nav.Link as={Link} to="/perfil">Perfil</Nav.Link></b>
+                                    <b><Nav.Link onClick={() => {
+                                        logout({ logoutParams: { returnTo: window.location.origin } });
+                                        deleteLoggedUser();
+                                        setIsLoggedIn(false);
+                                        isLoading(true);
+                                    }}>Salir</Nav.Link></b>
+                                    </>
+                                ):(
+                                    <>
+                                    <b><Nav.Link onClick={ () => loginWithRedirect() }>Ingresar</Nav.Link></b>
+                                    </>
+                                )}
+                                </>
+                            )}
+
                             <Nav.Link className='carrito-logo' as={Link} to="/carrito">
-                                <Button variant="outline-dark buscar-boton">
+                                <Button data-toggle="tooltip" data-placement="bottom" title="Carrito" variant="outline-dark buscar-boton">
                                     <BsCart4/>
                                     
                                     <div className='rounded-circle bg-black d-flex justify-content-center align-items-center carrito-logo-numero'>
@@ -94,7 +176,7 @@ function NavbarEx() {
                                     onKeyDown={handleKeyDown}
                                 />
                                 <Link to={"/quesos/buscar/"+textoABuscar}>
-                                    <Button variant="outline-dark buscar-boton" aria-label="Botón para buscar un queso"><BsSearchHeart/></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Buscar" variant="outline-dark buscar-boton" aria-label="Botón para buscar un queso"><BsSearchHeart/></Button>
                                 </Link>
                             </Form>
                         </Nav>
@@ -102,7 +184,7 @@ function NavbarEx() {
                 </Container>
             </Navbar>
 
-            <section>
+            <section className='section-fondo'>
                 <Outlet></Outlet>
             </section>
             
